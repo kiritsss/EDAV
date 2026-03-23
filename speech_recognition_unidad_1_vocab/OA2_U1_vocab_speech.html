@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Speaking Practice — Unit 1: Who Am I?</title>
+<style>
+  /* ══════════════════════════════════════════════════════════════════════════
+     EDAV · Unit 1 — Who Am I? · Speech Recognition Practice
+     Identity & Family vocabulary · CEFR A1 · Secundaria 143 · Coatzacoalcos
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  :root {
+    --bg: #f0f4f8; --card: #ffffff; --text: #1a202c; --text2: #4a5568;
+    --border: #e2e8f0; --accent: #2D2560; --accent-light: #eef2ff;
+    --green: #16a34a; --green-bg: #dcfce7; --red: #dc2626; --red-bg: #fee2e2;
+    --yellow: #d97706; --yellow-bg: #fef3c7; --gray: #6b7280;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08); --radius: 16px;
+    --tag-identity: #7F77DD; --tag-family: #0F6E56;
+  }
+  [data-theme="dark"] {
+    --bg: #111827; --card: #1f2937; --text: #f9fafb; --text2: #9ca3af;
+    --border: #374151; --accent: #818cf8; --accent-light: #1e1b4b;
+    --green: #4ade80; --green-bg: #14532d; --red: #f87171; --red-bg: #450a0a;
+    --yellow: #fbbf24; --yellow-bg: #451a03; --gray: #9ca3af;
+    --shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text);
+    min-height: 100vh; transition: background 0.3s, color 0.3s;
+    -webkit-user-select: none; -moz-user-select: none; user-select: none;
+  }
+  header {
+    background: var(--accent); border-bottom: 1px solid var(--border);
+    padding: 14px 24px; display: flex; align-items: center;
+    justify-content: space-between; box-shadow: var(--shadow);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .header-left h1 { font-size: 1.05rem; font-weight: 700; color: #fff; }
+  .header-left p  { font-size: 0.75rem; color: #A8A0E8; margin-top: 2px; }
+  .header-right   { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .score-badge {
+    background: rgba(255,255,255,0.15); color: #fff; font-weight: 700;
+    padding: 5px 13px; border-radius: 20px; font-size: 0.88rem;
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+  .mic-status {
+    font-size: 0.75rem; padding: 4px 10px; border-radius: 20px;
+    font-weight: 600; transition: all 0.3s; white-space: nowrap;
+  }
+  .mic-status.waiting { background: var(--yellow-bg); color: var(--yellow); }
+  .mic-status.ready   { background: var(--green-bg);  color: var(--green);  }
+  .mic-status.denied  { background: var(--red-bg);    color: var(--red);    }
+  .theme-toggle {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px; padding: 5px 11px; cursor: pointer;
+    font-size: 0.82rem; color: #fff; transition: background 0.2s; font-family: inherit;
+  }
+  .theme-toggle:hover { background: rgba(255,255,255,0.2); }
+
+  main { max-width: 680px; margin: 0 auto; padding: 22px 16px; }
+
+  /* ── Group selector ─────────────────────────────────────────────── */
+  .group-selector {
+    display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .group-btn {
+    flex: 1; min-width: 120px; padding: 10px 14px; border: 2px solid var(--border);
+    border-radius: 12px; background: var(--card); color: var(--text2);
+    font-size: 0.82rem; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; font-family: inherit; text-align: center;
+  }
+  .group-btn.active { border-color: var(--tag-identity); color: var(--tag-identity); background: var(--accent-light); }
+  .group-btn.active.family { border-color: var(--tag-family); color: var(--tag-family); }
+  .group-btn:hover:not(.active) { border-color: var(--gray); }
+
+  /* ── Category badge ─────────────────────────────────────────────── */
+  .cat-badge {
+    display: inline-block; font-size: 0.68rem; font-weight: 700;
+    padding: 2px 9px; border-radius: 20px; margin-bottom: 10px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .cat-identity { background: #eef; color: var(--tag-identity); }
+  .cat-family   { background: #e1f5ee; color: var(--tag-family); }
+
+  .progress-wrap { background: var(--border); border-radius: 8px; height: 6px; margin-bottom: 20px; overflow: hidden; }
+  .progress-bar  { height: 100%; background: var(--accent); border-radius: 8px; transition: width 0.5s ease; }
+
+  .word-card {
+    background: var(--card); border-radius: var(--radius); padding: 28px 22px;
+    text-align: center; box-shadow: var(--shadow); border: 1px solid var(--border);
+    margin-bottom: 18px; transition: background 0.3s;
+  }
+  .word-emoji       { font-size: 4.5rem; margin-bottom: 14px; line-height: 1; display: block; }
+  .word-target      { font-size: 2rem; font-weight: 700; color: var(--text); letter-spacing: 1px; margin-bottom: 5px; }
+  .word-phonetic    { font-size: 1rem; color: var(--text2); margin-bottom: 4px; font-style: italic; }
+  .word-translation { font-size: 0.92rem; color: var(--accent); font-weight: 600; margin-bottom: 5px; }
+  .word-tip-preview { font-size: 0.8rem; color: var(--gray); margin-top: 4px; }
+  .word-counter     { font-size: 0.78rem; color: var(--gray); margin-top: 10px; }
+
+  /* ── Audio level meter ─────────────────────────────────── */
+  .audio-meter-wrap {
+    display: flex; align-items: center; gap: 10px; margin: 0 0 13px;
+  }
+  .audio-meter-wrap.hidden { visibility: hidden; }
+  .audio-meter-label { font-size: 0.76rem; color: var(--text2); white-space: nowrap; min-width: 68px; }
+  .audio-meter-track {
+    flex: 1; height: 10px; background: var(--border); border-radius: 8px; overflow: hidden;
+  }
+  .audio-meter-fill {
+    height: 100%; width: 0%; border-radius: 8px;
+    background: linear-gradient(90deg,#4f46e5 0%,#22c55e 55%,#f59e0b 80%,#ef4444 100%);
+    transition: width 0.05s linear;
+  }
+  .audio-meter-fill.processing {
+    width: 100% !important;
+    background: linear-gradient(90deg, var(--accent) 0%, transparent 50%, var(--accent) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 0.9s linear infinite;
+  }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  .status-bar {
+    text-align: center; font-size: 0.86rem; color: var(--text2);
+    min-height: 26px; margin-bottom: 10px; transition: color 0.3s;
+  }
+  .status-bar.listening { color: var(--red); font-weight: 600; }
+
+  .controls {
+    display: flex; gap: 10px; justify-content: center;
+    margin-bottom: 18px; flex-wrap: wrap;
+  }
+  .btn {
+    display: flex; align-items: center; gap: 8px; padding: 13px 22px;
+    border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; min-width: 44px; min-height: 44px;
+    font-family: inherit;
+  }
+  .btn-record { background: var(--accent); color: #fff; flex: 1; max-width: 260px; justify-content: center; }
+  .btn-record:hover:not(:disabled) { filter: brightness(1.15); transform: translateY(-1px); }
+  .btn-record:disabled { background: var(--border); color: var(--text2); transform: none; cursor: not-allowed; }
+  .btn-record.recording { background: var(--red); animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse {
+    0%,100%{ box-shadow:0 0 0 0 rgba(220,38,38,0.4); }
+    50%    { box-shadow:0 0 0 10px rgba(220,38,38,0); }
+  }
+  .btn-secondary { background: var(--border); color: var(--text); }
+  .btn-secondary:hover { filter: brightness(0.95); }
+  .btn-next  { background: var(--green-bg); color: var(--green); flex: 1; max-width: 150px; justify-content: center; }
+  .btn-next:hover { filter: brightness(0.95); }
+  .btn-retry { background: var(--yellow-bg); color: var(--yellow); flex: 1; max-width: 150px; justify-content: center; font-weight: 700; }
+  .btn-retry:hover { filter: brightness(0.95); }
+
+  .feedback-panel {
+    background: var(--card); border-radius: var(--radius); padding: 18px;
+    border: 1px solid var(--border); margin-bottom: 18px; display: none;
+  }
+  .feedback-panel.show { display: block; }
+  .feedback-heard { font-size: 0.8rem; color: var(--text2); margin-bottom: 10px; }
+  .feedback-heard span { font-weight: 600; color: var(--text); }
+  .feedback-result {
+    display: flex; align-items: center; gap: 12px; padding: 13px 15px;
+    border-radius: 10px; margin-bottom: 10px; font-size: 0.95rem; font-weight: 600;
+  }
+  .feedback-result.correct   { background: var(--green-bg); color: var(--green); }
+  .feedback-result.incorrect { background: var(--red-bg);   color: var(--red);   }
+  .feedback-icon { font-size: 1.4rem; }
+  .tip-box {
+    background: var(--yellow-bg); color: var(--yellow); border-radius: 10px;
+    padding: 11px 15px; font-size: 0.86rem; line-height: 1.5; display: none;
+  }
+  .tip-box.show { display: block; }
+  .tip-label { font-weight: 700; margin-bottom: 4px; }
+
+  .results-screen { display: none; text-align: center; }
+  .results-screen.show { display: block; }
+  .results-card {
+    background: var(--card); border-radius: var(--radius); padding: 38px 22px;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .results-trophy { font-size: 3.8rem; margin-bottom: 11px; }
+  .results-title  { font-size: 1.55rem; font-weight: 700; margin-bottom: 7px; }
+  .results-sub    { color: var(--text2); margin-bottom: 22px; font-size: 0.93rem; }
+  .results-score  { font-size: 2.8rem; font-weight: 800; color: var(--accent); margin-bottom: 5px; }
+  .results-label  { color: var(--text2); font-size: 0.88rem; margin-bottom: 26px; }
+  .results-breakdown { text-align: left; margin-bottom: 26px; }
+  .breakdown-title { font-weight: 700; margin-bottom: 11px; font-size: 0.88rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+  .breakdown-item { display: flex; align-items: center; gap: 11px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .breakdown-item:last-child { border-bottom: none; }
+  .breakdown-emoji { font-size: 1.3rem; }
+  .breakdown-word  { font-weight: 600; flex: 1; }
+  .breakdown-tag   { font-size: 0.76rem; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+  .tag-correct   { background: var(--green-bg); color: var(--green); }
+  .tag-incorrect { background: var(--red-bg);   color: var(--red);   }
+  .btn-restart {
+    background: var(--accent); color: #fff; width: 100%; justify-content: center;
+    font-size: 0.97rem; padding: 15px; border-radius: 12px;
+  }
+  .btn-restart:hover { filter: brightness(1.1); }
+  .exercise-area.hide { display: none; }
+
+  /* ── Attempt indicator ─────────────────────────────────── */
+  .attempt-indicator {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; margin-bottom: 13px;
+  }
+  .attempt-label { font-size: 0.78rem; color: var(--text2); }
+  .attempt-dots  { display: flex; gap: 6px; }
+  .attempt-dot {
+    width: 27px; height: 27px; border-radius: 50%; border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 700; transition: all 0.25s;
+    color: var(--text2);
+  }
+  .attempt-dot.practice-done  { background: var(--yellow-bg); border-color: var(--yellow); color: var(--yellow); }
+  .attempt-dot.official-done  { background: var(--green-bg);  border-color: var(--green);  color: var(--green);  }
+  .attempt-dot.active-practice{ background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .attempt-dot.active-official{ background: var(--green-bg);     border-color: var(--green);  color: var(--green);  }
+  .attempt-dot.failed-official{ background: var(--red-bg);       border-color: var(--red);    color: var(--red);    }
+
+  @media (max-width: 480px) {
+    .word-emoji { font-size: 3.8rem; } .word-target { font-size: 1.55rem; }
+    .controls { flex-direction: column; align-items: stretch; }
+    .btn-record, .btn-next { max-width: 100%; }
+    .group-btn { font-size: 0.76rem; padding: 8px 10px; }
+  }
+</style>
+</head>
+<body oncontextmenu="return false" oncopy="return false" onpaste="return false" oncut="return false" data-theme="light">
+
+<header>
+  <div class="header-left">
+    <h1>🎙️ Speaking — Unit 1: Who Am I?</h1>
+    <p>EDAV · Identity &amp; Family · CEFR A1 · Secundaria 143</p>
+  </div>
+  <div class="header-right">
+    <span class="mic-status waiting" id="mic-status">🎙️ Enabling mic…</span>
+    <div class="score-badge" id="score-badge">0 / 0</div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+    <button class="theme-toggle" onclick="exportLog()" title="Export recognition log">📋 Log</button>
+  </div>
+</header>
+
+<main>
+  <div class="exercise-area" id="exercise-area">
+
+    <!-- Group selector -->
+    <div class="group-selector">
+      <button class="group-btn active" id="btn-all" onclick="setGroup('all')">🌐 All (18 words)</button>
+      <button class="group-btn" id="btn-identity" onclick="setGroup('identity')">👤 Identity (10)</button>
+      <button class="group-btn family" id="btn-family" onclick="setGroup('family')">👨‍👩‍👧 Family (8)</button>
+    </div>
+
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+
+    <div class="word-card">
+      <span class="word-emoji"       id="word-emoji"></span>
+      <div  class="cat-badge"        id="word-cat"></div>
+      <div  class="word-target"      id="word-target"></div>
+      <div  class="word-translation" id="word-translation"></div>
+      <div  class="word-phonetic"    id="word-phonetic"></div>
+      <div  class="word-tip-preview" id="word-tip-preview"></div>
+      <div  class="word-counter"     id="word-counter"></div>
+    </div>
+
+    <div class="status-bar" id="status-bar">Enabling microphone…</div>
+
+    <!-- Attempt indicator: 2 practice + 1 official -->
+    <div class="attempt-indicator" id="attempt-indicator">
+      <span class="attempt-label">Attempts:</span>
+      <div class="attempt-dots">
+        <div class="attempt-dot active-practice" id="dot-0" title="Practice 1">P1</div>
+        <div class="attempt-dot" id="dot-1" title="Practice 2">P2</div>
+        <div class="attempt-dot" id="dot-2" title="Official">⭐</div>
+      </div>
+    </div>
+
+    <div class="audio-meter-wrap hidden" id="audio-meter-wrap">
+      <span class="audio-meter-label" id="audio-meter-label">🎤 Level</span>
+      <div class="audio-meter-track">
+        <div class="audio-meter-fill" id="audio-meter-fill"></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-record" id="btn-record" onclick="startListening()" disabled>🎙️ Speak Now</button>
+      <button class="btn btn-retry"  id="btn-retry"  onclick="retryAttempt()" style="display:none">🔁 Try Again</button>
+      <button class="btn btn-next"   id="btn-next"   onclick="nextWord()" style="display:none">Next →</button>
+      <button class="btn btn-secondary" onclick="resetExercise()">↺ Reset</button>
+    </div>
+
+    <div class="feedback-panel" id="feedback-panel">
+      <div class="feedback-heard">I heard: <span id="heard-text">—</span></div>
+      <div class="feedback-result" id="feedback-result">
+        <span class="feedback-icon" id="feedback-icon">✅</span>
+        <span id="feedback-msg">Great pronunciation!</span>
+      </div>
+      <div class="tip-box" id="tip-box">
+        <div class="tip-label">💡 Pronunciation tip:</div>
+        <div id="tip-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-screen" id="results-screen">
+    <div class="results-card">
+      <div class="results-trophy" id="results-trophy">🏆</div>
+      <div class="results-title"  id="results-title">Well done!</div>
+      <div class="results-sub"    id="results-sub">Here's how you did:</div>
+      <div class="results-score"  id="results-score">0/0</div>
+      <div class="results-label"  id="results-label">words correct</div>
+      <div class="results-breakdown" id="results-breakdown"></div>
+      <button class="btn btn-restart" onclick="resetExercise()">🔄 Try Again</button>
+      <button class="btn btn-secondary" onclick="exportLog()" style="margin-top:10px;width:100%;justify-content:center;">📋 Export Recognition Log</button>
+    </div>
+  </div>
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   ██████   DATA BLOCK — EDAV Unit 1: Who Am I?   ██████
+   Identity & Family vocabulary · CEFR A1
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const ALL_WORDS = [
+  // ── GROUP 1: IDENTITY ────────────────────────────────────────────────
+  {
+    word:'name', emoji:'🪪', phonetic:'/neɪm/', translation:'Nombre', group:'identity',
+    hint:'One syllable. Rhymes with "game".',
+    tip:'The vowel is "ay" like in "day". N + AY + M. Don\'t say "nah-meh". Just NAME.',
+    accept:['name','names','named','nay','neem','naim','nem','game','same','came','fame']
+  },
+  {
+    word:'age', emoji:'🎂', phonetic:'/eɪdʒ/', translation:'Edad', group:'identity',
+    hint:'One syllable. Sounds like the letter "A" + "j".',
+    tip:'Say the letter "A" (like in "say"), then add a soft "j". AY-J. Not "ah-ge".',
+    accept:['age','aged','ages','aj','aje','aide','eight','ace','haze','page','cage','stage','wage']
+  },
+  {
+    word:'country', emoji:'🌎', phonetic:'/ˈkʌntri/', translation:'País', group:'identity',
+    hint:'Two syllables: COUN-try. The "ou" sounds like "uh".',
+    tip:'The first vowel is a short "uh" sound. COUN = "kuhn". KUN-tree. Not "con-tree".',
+    accept:['country','countries','county','cuntry','contri','cuntre','contry','pantry','entry']
+  },
+  {
+    word:'city', emoji:'🏙️', phonetic:'/ˈsɪti/', translation:'Ciudad', group:'identity',
+    hint:'Two syllables: CI-ty. Short "i" like in "sit".',
+    tip:'Short "i" like in "sit". Two syllables: SIT-ee. The "t" is a light tap. SIT-ee.',
+    accept:['city','cities','citee','sitty','sity','siti','kitty','pretty','pity','witty']
+  },
+  {
+    word:'tall', emoji:'📏', phonetic:'/tɔːl/', translation:'Alto/a', group:'identity',
+    hint:'One syllable. The "a" sounds like "aw".',
+    tip:'The vowel "al" = "aw". T + AWL. Like "fall" or "ball". Not "tal" (Spanish-style).',
+    accept:['tall','taller','tallest','taul','tol','tal','call','fall','ball','hall','wall','doll']
+  },
+  {
+    word:'young', emoji:'👶', phonetic:'/jʌŋ/', translation:'Joven', group:'identity',
+    hint:'One syllable. Starts with "y" sound like "yes".',
+    tip:'Start with "y" like in "yes". The vowel is a short "uh". Y + UHN + G. YUNG.',
+    accept:['young','younger','younk','yung','yong','jung','yang','yung','long','song','tongue']
+  },
+  {
+    word:'kind', emoji:'🤗', phonetic:'/kaɪnd/', translation:'Amable', group:'identity',
+    hint:'One syllable. Rhymes with "mind".',
+    tip:'The vowel is "eye" like in "my". K + EYE + ND. KYND. Rhymes with "find", "mind".',
+    accept:['kind','kinds','kinder','kynd','caynd','find','mind','bind','wind','lined','signed']
+  },
+  {
+    word:'funny', emoji:'😄', phonetic:'/ˈfʌni/', translation:'Gracioso/a', group:'identity',
+    hint:'Two syllables: FUN-ny. Short "u" like in "fun".',
+    tip:'Short "uh" vowel. FUN = "fuhn". Two syllables: FUN-ee. Rhymes with "sunny", "honey".',
+    accept:['funny','funnier','funnies','fune','funy','funi','funi','sunny','money','honey','bunny','many']
+  },
+  {
+    word:'nice', emoji:'😊', phonetic:'/naɪs/', translation:'Simpático/a', group:'identity',
+    hint:'One syllable. Rhymes with "ice".',
+    tip:'The vowel is "eye" like in "my". N + EYE + S. NYSS. Rhymes with "rice", "price", "twice".',
+    accept:['nice','nicer','nicest','nais','nise','nyss','mice','rice','price','twice','ice','dice']
+  },
+  {
+    word:'smart', emoji:'🧠', phonetic:'/smɑːrt/', translation:'Inteligente', group:'identity',
+    hint:'One syllable. SMART — the "ar" sounds like in "car".',
+    tip:'S + M + ART. The "ar" is like in "car" or "far". Don\'t say "esmarte". SMART.',
+    accept:['smart','smarter','smartest','smar','esmart','smort','start','heart','part','art','chart']
+  },
+
+  // ── GROUP 2: FAMILY ──────────────────────────────────────────────────
+  {
+    word:'mother', emoji:'👩', phonetic:'/ˈmʌðər/', translation:'Madre / Mamá', group:'family',
+    hint:'Two syllables: MO-ther. The "th" vibrates.',
+    tip:'The "th" is voiced — place your tongue lightly between your teeth and vibrate. MUH-ther.',
+    accept:['mother','mothers','muther','moder','mudher','mather','muder','rather','brother','other','bother']
+  },
+  {
+    word:'father', emoji:'👨', phonetic:'/ˈfɑːðər/', translation:'Padre / Papá', group:'family',
+    hint:'Two syllables: FA-ther. Long "a" like in "car".',
+    tip:'Long "ah" vowel. FAH-ther. The "th" is voiced, like in "mother". FAH-ther.',
+    accept:['father','fathers','fader','farther','fother','fauther','rather','gather','lather']
+  },
+  {
+    word:'sister', emoji:'👧', phonetic:'/ˈsɪstər/', translation:'Hermana', group:'family',
+    hint:'Two syllables: SIS-ter. Short "i" like in "sit".',
+    tip:'Short "i" in the first syllable. SIS like "hiss". SIS-ter. Not "see-ster".',
+    accept:['sister','sisters','sester','sistar','sistur','sisster','mister','blister','lister']
+  },
+  {
+    word:'brother', emoji:'👦', phonetic:'/ˈbrʌðər/', translation:'Hermano', group:'family',
+    hint:'Two syllables: BRO-ther. The "th" vibrates.',
+    tip:'The "br" like in "bread". Short "uh" vowel: BRUHther. The "th" is voiced. BRUH-ther.',
+    accept:['brother','brothers','bruther','broter','brodher','bruder','brudder','other','mother','another']
+  },
+  {
+    word:'son', emoji:'👦🧡', phonetic:'/sʌn/', translation:'Hijo', group:'family',
+    hint:'One syllable. Sounds exactly like "sun".',
+    tip:'Sounds just like "sun" (the star). Short "uh" vowel. S + UHN. Not "sohn" or "son" with "o".',
+    accept:['son','sons','sun','sunn','some','done','run','fun','gun','bun','nun','ton','won']
+  },
+  {
+    word:'daughter', emoji:'👧🧡', phonetic:'/ˈdɔːtər/', translation:'Hija', group:'family',
+    hint:'Two syllables: DAUGH-ter. "augh" = "aw" sound.',
+    tip:'"augh" is silent! It sounds like "aw". DAW-ter. Rhymes with "water". DAW-ter.',
+    accept:['daughter','daughters','dotter','dawter','doter','dater','waughter','water','otter']
+  },
+  {
+    word:'friend', emoji:'🤝', phonetic:'/frend/', translation:'Amigo/a', group:'family',
+    hint:'One syllable. The "ie" is a short "e".',
+    tip:'The "ie" = short "e" like in "bed". FR + END. FREND. Don\'t say "fri-end" (two syllables).',
+    accept:['friend','friends','frend','fren','friand','fiend','trend','blend','end','bend','send','lend']
+  },
+  {
+    word:'family', emoji:'👨‍👩‍👧', phonetic:'/ˈfæmɪli/', translation:'Familia', group:'family',
+    hint:'Three syllables: FAM-i-ly. Short "a" like in "cat".',
+    tip:'Short "a" like in "cat". Three syllables: FAM-uh-lee. Not "fah-mee-lee". FAM-uh-lee.',
+    accept:['family','families','famaly','famely','familey','famili','familee','family','mainly','emily']
+  }
+];
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ██████   END OF DATA BLOCK — DO NOT EDIT BELOW THIS LINE   ██████
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+let WORDS = ALL_WORDS.slice();
+let currentGroup = 'all';
+
+function setGroup(group) {
+  currentGroup = group;
+  if(group === 'all')      WORDS = ALL_WORDS.slice();
+  else if(group === 'identity') WORDS = ALL_WORDS.filter(w => w.group === 'identity');
+  else                     WORDS = ALL_WORDS.filter(w => w.group === 'family');
+
+  // Update button states
+  ['all','identity','family'].forEach(g => {
+    const btn = el('btn-' + g);
+    if(btn) {
+      btn.className = 'group-btn' + (g === 'all' ? '' : (g === 'family' ? ' family' : '')) + (g === group ? ' active' : '');
+    }
+  });
+  resetExercise();
+}
+
+// ─── State ────────────────────────────────────────────────────────────────
+const state = {
+  current: 0, score: 0, results: [],
+  recognition: null, listening: false,
+  audioCtx: null, analyser: null, meterSource: null, micStream: null, meterRAF: null,
+  watchdog: null,
+  resultReceived: false,
+  attemptPhase: 0
+};
+
+const MAX_PRACTICE = 2;
+const WATCHDOG_MS  = 7000;
+
+// ─── Recognition log ─────────────────────────────────────────────────────
+const recognitionLog = [];
+
+function logAttempt(wordObj, transcripts, correct, matchMethod) {
+  recognitionLog.push({
+    time: new Date().toLocaleTimeString(),
+    word: wordObj.word, group: wordObj.group,
+    phase: state.attemptPhase < MAX_PRACTICE ? 'practice-'+(state.attemptPhase+1) : 'official',
+    transcripts: transcripts.slice(), correct: correct, method: matchMethod
+  });
+}
+
+function exportLog() {
+  if(recognitionLog.length === 0) { alert('No recognition data yet. Try speaking some words first!'); return; }
+  let txt = 'EDAV Unit 1 — RECOGNITION LOG\n';
+  txt += 'Exported: ' + new Date().toLocaleString() + '\n';
+  txt += '═'.repeat(60) + '\n\n';
+  recognitionLog.forEach((e, i) => {
+    txt += (i+1) + '. [' + e.time + '] ' + (e.correct?'✅':'❌') + ' ' + e.word.toUpperCase() + ' (' + e.group + ')\n';
+    txt += '   Phase: ' + e.phase + '\n';
+    txt += '   Heard: ' + e.transcripts.join(' | ') + '\n';
+    txt += '   Match: ' + e.method + '\n\n';
+  });
+  txt += '═'.repeat(60) + '\n';
+  txt += 'Total: ' + recognitionLog.length + ' | Accepted: ' + recognitionLog.filter(e=>e.correct).length + ' | Rejected: ' + recognitionLog.filter(e=>!e.correct).length + '\n';
+  const rejected = recognitionLog.filter(e=>!e.correct);
+  if(rejected.length) {
+    txt += '\n— REJECTED TRANSCRIPTS —\n';
+    rejected.forEach(e => { txt += '  "' + e.word + '" ← heard: ' + e.transcripts.join(', ') + '\n'; });
+  }
+  const blob = new Blob([txt], {type:'text/plain'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'edav_u1_log_' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+// ─── Watchdog ─────────────────────────────────────────────────────────────
+function startWatchdog() {
+  clearWatchdog();
+  state.watchdog = setTimeout(() => {
+    if(state.listening) {
+      console.warn('Watchdog: recognition hung, aborting.');
+      if(state.recognition) { try { state.recognition.abort(); } catch(e){} }
+      stopMeter(); hideProcessing();
+      restoreRecordBtn();
+      const sb = el('status-bar');
+      if(sb) { sb.textContent = '⏱️ Time out — try again.'; sb.classList.remove('listening'); }
+      state.listening = false;
+    }
+  }, WATCHDOG_MS);
+}
+function clearWatchdog() { if(state.watchdog){ clearTimeout(state.watchdog); state.watchdog=null; } }
+
+// ─── DOM helper ──────────────────────────────────────────────────────────
+function el(id){ return document.getElementById(id); }
+
+// ─── Audio context ────────────────────────────────────────────────────────
+function getAudioCtx(){
+  if(!state.audioCtx){ try{ state.audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+  return state.audioCtx;
+}
+
+function playStartSound(){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  try{
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.frequency.value=660; g.gain.setValueAtTime(0.15,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.15);
+    o.start(); o.stop(ctx.currentTime+0.15);
+  }catch(e){}
+}
+
+function playEndSound(correct){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  try{
+    const freq = correct ? [523,659] : [330,262];
+    freq.forEach((f,i)=>{
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value=f; g.gain.setValueAtTime(0.12,ctx.currentTime+i*0.12);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.12+0.15);
+      o.start(ctx.currentTime+i*0.12); o.stop(ctx.currentTime+i*0.12+0.15);
+    });
+  }catch(e){}
+}
+
+// ─── Microphone / meter ───────────────────────────────────────────────────
+function requestMicPermission(){
+  const sb=el('status-bar'), mic=el('mic-status'), btn=el('btn-record');
+  navigator.mediaDevices.getUserMedia({audio:true,video:false})
+    .then(stream=>{
+      state.micStream = stream;
+      if(mic){ mic.textContent='🎙️ Mic ready'; mic.className='mic-status ready'; }
+      if(sb)  sb.textContent='Press the button and say the word';
+      if(btn){ btn.disabled=false; btn.textContent='🎙️ Speak Now'; }
+      startMeter(stream);
+    })
+    .catch(err=>{
+      if(mic){ mic.textContent='🚫 Mic denied'; mic.className='mic-status denied'; }
+      if(sb)  sb.textContent='⚠️ Microphone permission denied. Please allow mic access in Chrome.';
+      console.warn('Mic error:', err);
+    });
+}
+
+function startMeter(stream){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  try{
+    state.analyser = ctx.createAnalyser();
+    state.analyser.fftSize = 256;
+    state.meterSource = ctx.createMediaStreamSource(stream);
+    state.meterSource.connect(state.analyser);
+    const wrap=el('audio-meter-wrap'), fill=el('audio-meter-fill');
+    if(wrap) wrap.classList.remove('hidden');
+    const buf = new Uint8Array(state.analyser.frequencyBinCount);
+    function tick(){
+      state.meterRAF = requestAnimationFrame(tick);
+      state.analyser.getByteFrequencyData(buf);
+      const avg = buf.reduce((s,v)=>s+v,0)/buf.length;
+      if(fill && !fill.classList.contains('processing')) fill.style.width = Math.min(100, avg*3)+'%';
+    }
+    tick();
+  }catch(e){}
+}
+
+function stopMeter(){
+  if(state.meterRAF){ cancelAnimationFrame(state.meterRAF); state.meterRAF=null; }
+  const fill=el('audio-meter-fill');
+  if(fill){ fill.classList.remove('processing'); fill.style.width='0%'; }
+}
+
+function showProcessing(){
+  const fill=el('audio-meter-fill'), lbl=el('audio-meter-label');
+  if(fill) fill.classList.add('processing');
+  if(lbl)  lbl.textContent='⚙️ Processing';
+}
+
+function hideProcessing(){
+  const fill=el('audio-meter-fill'), lbl=el('audio-meter-label');
+  if(fill) fill.classList.remove('processing');
+  if(lbl)  lbl.textContent='🎤 Level';
+}
+
+// ─── Speech recognition setup ────────────────────────────────────────────
+function setupRecognition(){
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRec){ console.warn('Speech API not supported'); return; }
+  const rec = new SpeechRec();
+  rec.lang='en-US'; rec.continuous=false; rec.interimResults=false; rec.maxAlternatives=5;
+  rec.onstart = () => {
+    state.listening=true; state.resultReceived=false;
+    const sb=el('status-bar'), btn=el('btn-record');
+    if(sb)  { sb.textContent='🔴 Listening… say the word!'; sb.classList.add('listening'); }
+    if(btn) { btn.textContent='🔴 Listening…'; btn.classList.add('recording'); }
+    startWatchdog();
+  };
+  rec.onresult = (e) => {
+    state.resultReceived=true; clearWatchdog();
+    const transcripts = [];
+    for(let i=0;i<e.results[0].length;i++) transcripts.push(e.results[0][i].transcript.trim().toLowerCase());
+    handleResult(transcripts);
+  };
+  rec.onerror = (e) => {
+    clearWatchdog(); state.listening=false;
+    stopMeter(); hideProcessing(); restoreRecordBtn();
+    if(state.micStream) startMeter(state.micStream);
+    const sb=el('status-bar');
+    if(e.error==='no-speech'){ if(sb) sb.textContent='🔇 No speech detected. Try again.'; }
+    else if(e.error==='not-allowed'){ if(sb) sb.textContent='🚫 Mic denied.'; }
+    else { if(sb) sb.textContent='⚠️ Error: '+e.error; }
+    if(sb) sb.classList.remove('listening');
+  };
+  rec.onend = () => {
+    clearWatchdog(); state.listening=false;
+    const btn=el('btn-record');
+    if(btn) btn.classList.remove('recording');
+    if(!state.resultReceived){ stopMeter(); hideProcessing(); restoreRecordBtn(); }
+    showProcessing();
+    setTimeout(()=>{ stopMeter(); hideProcessing(); if(state.micStream) startMeter(state.micStream); }, 600);
+  };
+  state.recognition = rec;
+}
+
+function restoreRecordBtn(){
+  const btn=el('btn-record');
+  if(btn){ btn.style.display='flex'; btn.textContent='🎙️ Speak Now'; btn.disabled=false; btn.classList.remove('recording'); }
+}
+
+// ─── Levenshtein ──────────────────────────────────────────────────────────
+function levenshtein(a,b){
+  const m=a.length, n=b.length, dp=[];
+  for(let i=0;i<=m;i++){ dp[i]=[i]; }
+  for(let j=0;j<=n;j++){ dp[0][j]=j; }
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++){
+    dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  }
+  return dp[m][n];
+}
+
+// ─── Answer checking ──────────────────────────────────────────────────────
+function checkAnswer(transcripts, wordObj){
+  const target = wordObj.word.toLowerCase();
+  const accepted = wordObj.accept.map(s=>s.toLowerCase());
+  const maxDist = target.length > 5 ? 2 : 1;
+  for(const t of transcripts){
+    const words = t.split(/\s+/);
+    // Layer 1: exact match in accept list
+    for(const w of words){ if(accepted.includes(w)) return {correct:true,method:'exact',heard:t}; }
+    // Layer 2: substring match
+    if(accepted.some(a=>t.includes(a))) return {correct:true,method:'substring',heard:t};
+    // Layer 3: fuzzy (Levenshtein)
+    for(const w of words){ if(levenshtein(w,target)<=maxDist) return {correct:true,method:'fuzzy('+levenshtein(w,target)+')',heard:t}; }
+    for(const w of words){ for(const a of accepted){ if(levenshtein(w,a)<=maxDist) return {correct:true,method:'fuzzy-accept',heard:t}; } }
+  }
+  return {correct:false,method:'none',heard:transcripts[0]||''};
+}
+
+// ─── Handle result ────────────────────────────────────────────────────────
+function handleResult(transcripts){
+  const w = WORDS[state.current];
+  const {correct, method, heard} = checkAnswer(transcripts, w);
+  logAttempt(w, transcripts, correct, method);
+  playEndSound(correct);
+  const isOfficial = (state.attemptPhase >= MAX_PRACTICE);
+  showFeedback(heard, correct, w.tip, isOfficial);
+  if(correct){
+    updateAttemptDot(state.attemptPhase, isOfficial?'official-done':'practice-done');
+    if(isOfficial){ state.score++; state.results.push({word:w.word,emoji:w.emoji,correct:true}); updateScoreBadge(); }
+    const btnRec=el('btn-record'), btnRetry=el('btn-retry'), btnNext=el('btn-next');
+    if(btnRec)   { btnRec.style.display='none'; }
+    if(btnRetry) { btnRetry.style.display='none'; }
+    if(btnNext)  { btnNext.style.display='flex'; }
+  } else {
+    if(isOfficial){
+      updateAttemptDot(MAX_PRACTICE,'failed-official');
+      state.results.push({word:w.word,emoji:w.emoji,correct:false});
+      updateScoreBadge();
+      const btnRec=el('btn-record'), btnRetry=el('btn-retry'), btnNext=el('btn-next');
+      if(btnRec)   { btnRec.style.display='none'; }
+      if(btnRetry) { btnRetry.style.display='none'; }
+      if(btnNext)  { btnNext.style.display='flex'; }
+    } else {
+      updateAttemptDot(state.attemptPhase,'practice-done');
+      state.attemptPhase++;
+      if(state.attemptPhase===MAX_PRACTICE){
+        const offDot=el('dot-'+MAX_PRACTICE);
+        if(offDot) offDot.className='attempt-dot active-official';
+      }
+      const btnRec=el('btn-record'), btnRetry=el('btn-retry'), btnNext=el('btn-next');
+      if(btnRec)   { btnRec.style.display='none'; }
+      if(btnRetry) { btnRetry.style.display='flex'; }
+      if(btnNext)  { btnNext.style.display='none'; }
+    }
+  }
+}
+
+function showFeedback(heard, correct, tip, isOfficial){
+  const panel=el('feedback-panel'), heardEl=el('heard-text'), result=el('feedback-result');
+  const icon=el('feedback-icon'), msg=el('feedback-msg'), tipBox=el('tip-box'), tipText=el('tip-text');
+  if(!panel) return;
+  if(heardEl) heardEl.textContent = heard || '(nothing detected)';
+  if(result){
+    result.className = 'feedback-result ' + (correct?'correct':'incorrect');
+    if(icon) icon.textContent = correct ? '✅' : '❌';
+    if(msg){
+      if(correct) msg.textContent = isOfficial ? '🏆 Excellent pronunciation!' : '👍 Good! Keep going!';
+      else         msg.textContent = isOfficial ? 'Keep practicing this word!' : 'Not quite — try again!';
+    }
+  }
+  if(tipBox && tipText){
+    if(!correct){ tipText.textContent=tip; tipBox.classList.add('show'); }
+    else tipBox.classList.remove('show');
+  }
+  panel.classList.add('show');
+  const sb=el('status-bar');
+  if(sb){ sb.textContent = correct ? '✅ Correct!' : '❌ Try again'; sb.classList.remove('listening'); }
+}
+
+function retryAttempt(){
+  el('feedback-panel')?.classList.remove('show');
+  const btnRec=el('btn-record'), btnRetry=el('btn-retry'), btnNext=el('btn-next'), sb=el('status-bar');
+  if(btnRec)   { btnRec.style.display='flex'; btnRec.textContent='🎙️ Speak Now'; btnRec.disabled=false; btnRec.classList.remove('recording'); }
+  if(btnRetry) btnRetry.style.display='none';
+  if(btnNext)  btnNext.style.display='none';
+  if(sb)       { sb.textContent='Press the button and say the word'; sb.classList.remove('listening'); }
+}
+
+// ─── Attempt dots ────────────────────────────────────────────────────────
+function updateAttemptDot(index, cssClass){
+  const dot=el('dot-'+index);
+  if(dot) dot.className='attempt-dot '+cssClass;
+}
+
+function resetAttemptDots(){
+  state.attemptPhase=0;
+  for(let i=0;i<MAX_PRACTICE;i++){
+    const dot=el('dot-'+i);
+    if(dot) dot.className = i===0 ? 'attempt-dot active-practice' : 'attempt-dot';
+  }
+  const offDot=el('dot-'+MAX_PRACTICE);
+  if(offDot) offDot.className='attempt-dot';
+}
+
+function startListening(){
+  const btnRec=el('btn-record'), btnRetry=el('btn-retry'), btnNext=el('btn-next');
+  if(btnRec)   { btnRec.disabled=true; btnRec.textContent='⏳ Starting…'; }
+  if(btnRetry) btnRetry.style.display='none';
+  if(btnNext)  btnNext.style.display='none';
+  el('feedback-panel')?.classList.remove('show');
+  getAudioCtx(); playStartSound();
+  if(!state.recognition) setupRecognition();
+  setTimeout(()=>{
+    if(state.recognition){
+      try{ state.recognition.start(); }
+      catch(e){
+        console.warn('start() failed:', e); setupRecognition(); restoreRecordBtn();
+        const sb=el('status-bar'); if(sb) sb.textContent='⚠️ Could not start. Try again.';
+      }
+    }
+  }, 120);
+}
+
+function nextWord(){
+  state.current++;
+  if(state.current>=WORDS.length){ showResults(); return; }
+  loadWord(state.current); resetAttemptDots();
+  el('feedback-panel')?.classList.remove('show');
+  const btnRetry=el('btn-retry'), btnNext=el('btn-next'), btnRec=el('btn-record'), sb=el('status-bar');
+  if(btnRetry) btnRetry.style.display='none';
+  if(btnNext)  btnNext.style.display='none';
+  if(btnRec)   { btnRec.style.display='flex'; btnRec.textContent='🎙️ Speak Now'; btnRec.disabled=false; btnRec.classList.remove('recording'); }
+  if(sb)       { sb.textContent='Press the button and say the word'; sb.classList.remove('listening'); }
+  hideProcessing();
+}
+
+function loadWord(index){
+  const w=WORDS[index];
+  const s=(id,v)=>{ const e=el(id); if(e) e.textContent=v; };
+  s('word-emoji',w.emoji); s('word-target',w.word); s('word-phonetic',w.phonetic);
+  s('word-translation', w.translation||''); s('word-tip-preview',w.hint);
+  s('word-counter','Word '+(index+1)+' of '+WORDS.length);
+  const cat=el('word-cat');
+  if(cat){
+    cat.textContent = w.group==='identity' ? '👤 Identity' : '👨‍👩‍👧 Family';
+    cat.className = 'cat-badge ' + (w.group==='identity' ? 'cat-identity' : 'cat-family');
+  }
+  const pb=el('progress-bar');
+  if(pb) pb.style.width=((index/WORDS.length)*100)+'%';
+}
+
+function updateScoreBadge(){
+  const b=el('score-badge');
+  if(b) b.textContent=state.score+' / '+WORDS.length;
+}
+
+// ─── Results ─────────────────────────────────────────────────────────────
+function showResults(){
+  el('exercise-area')?.classList.add('hide');
+  el('results-screen')?.classList.add('show');
+  const total=WORDS.length, pct=Math.round((state.score/total)*100);
+  let trophy='🏆', title='Excellent!', sub='Outstanding pronunciation!';
+  if(pct<50)       { trophy='💪'; title='Keep practicing!';  sub="You're building great habits!"; }
+  else if(pct<75)  { trophy='👍'; title='Good effort!';       sub='A little more and you\'ll nail it!'; }
+  else if(pct<100) { trophy='⭐'; title='Well done!';          sub='Almost perfect!'; }
+  const s=(id,v)=>{ const e=el(id); if(e) e.textContent=v; };
+  s('results-trophy',trophy); s('results-title',title); s('results-sub',sub);
+  s('results-score',state.score+'/'+total); s('results-label','words correct ('+pct+'%)');
+  el('progress-bar') && (el('progress-bar').style.width='100%');
+  updateScoreBadge();
+  const bd=el('results-breakdown');
+  if(bd){
+    bd.innerHTML='<div class="breakdown-title">Word by word:</div>';
+    state.results.forEach(r=>{
+      const item=document.createElement('div');
+      item.className='breakdown-item';
+      item.innerHTML='<span class="breakdown-emoji">'+r.emoji+'</span><span class="breakdown-word">'+r.word+'</span><span class="breakdown-tag '+(r.correct?'tag-correct':'tag-incorrect')+'">'+(r.correct?'✅ Correct':'❌ Missed')+'</span>';
+      bd.appendChild(item);
+    });
+  }
+}
+
+// ─── Reset ───────────────────────────────────────────────────────────────
+function resetExercise(){
+  state.current=0; state.score=0; state.results=[]; state.listening=false; state.resultReceived=false;
+  recognitionLog.length=0;
+  if(state.recognition){ try{ state.recognition.abort(); }catch(e){} }
+  clearWatchdog(); stopMeter(); hideProcessing(); loadWord(0); resetAttemptDots();
+  el('exercise-area')?.classList.remove('hide');
+  el('results-screen')?.classList.remove('show');
+  el('feedback-panel')?.classList.remove('show');
+  const btnRec=el('btn-record'), btnRetry=el('btn-retry'), btnNext=el('btn-next');
+  const sb=el('status-bar'), pb=el('progress-bar'), badge=el('score-badge');
+  if(btnRec)   { btnRec.style.display='flex'; btnRec.textContent='🎙️ Speak Now'; btnRec.classList.remove('recording'); btnRec.disabled=(state.micStream===null); }
+  if(btnRetry) btnRetry.style.display='none';
+  if(btnNext)  btnNext.style.display='none';
+  if(sb)       { sb.textContent='Press the button and say the word'; sb.classList.remove('listening'); }
+  if(pb)       pb.style.width='0%';
+  if(badge)    badge.textContent='0 / '+WORDS.length;
+  if(state.micStream) startMeter(state.micStream);
+}
+
+// ─── Theme ───────────────────────────────────────────────────────────────
+function toggleTheme(){
+  const isDark=document.body.dataset.theme==='dark';
+  document.body.dataset.theme = isDark?'light':'dark';
+  const btn=document.querySelector('.theme-toggle');
+  if(btn) btn.textContent = isDark?'🌙 Dark':'☀️ Light';
+  try{ localStorage.setItem('edav-u1-theme', document.body.dataset.theme); }catch(e){}
+}
+
+// ─── Init ────────────────────────────────────────────────────────────────
+(function init(){
+  try{
+    const saved=localStorage.getItem('edav-u1-theme');
+    if(saved){
+      document.body.dataset.theme=saved;
+      const btn=document.querySelector('.theme-toggle');
+      if(btn) btn.textContent=saved==='dark'?'☀️ Light':'🌙 Dark';
+    }
+  }catch(e){}
+  loadWord(0);
+  updateScoreBadge();
+
+  // iOS Safari detection
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const hasSpeech = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+  if(isIOS && !hasSpeech){
+    const banner=document.createElement('div');
+    banner.style.cssText='background:#fee2e2;color:#991b1b;padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:0.85rem;line-height:1.5;border:1px solid #fca5a5;';
+    banner.innerHTML='<strong>⚠️ iOS Safari not supported.</strong><br>This exercise requires Chrome (Android or desktop) or Microsoft Edge.';
+    const main=document.querySelector('main');
+    if(main) main.insertBefore(banner, main.firstChild);
+    return;
+  }
+
+  // file:// warning
+  if(location.protocol==='file:'){
+    const banner=document.createElement('div');
+    banner.style.cssText='background:#fef3c7;color:#92400e;padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:0.86rem;line-height:1.5;border:1px solid #fcd34d;';
+    banner.innerHTML='<strong>⚠️ Opened via file://.</strong> Chrome will ask mic permission every time.<br>'
+      +'Use the <strong>start_server_EDAV_U1.bat</strong> file or run:<br>'
+      +'<code style="background:#fde68a;padding:2px 6px;border-radius:4px;font-size:0.82rem;">python -m http.server 8000</code><br>'
+      +'Then open <a href="http://localhost:8000" style="color:#1d4ed8;font-weight:600;">http://localhost:8000</a> in Chrome.';
+    const main=document.querySelector('main');
+    if(main) main.insertBefore(banner, main.firstChild);
+  }
+
+  if(navigator.mediaDevices?.getUserMedia){
+    requestMicPermission();
+  } else {
+    const sb=el('status-bar'), mic=el('mic-status');
+    if(sb) sb.textContent='⚠️ getUserMedia not supported. Use Chrome.';
+    if(mic){ mic.textContent='⚠️ Not supported'; mic.className='mic-status denied'; }
+  }
+})();
+</script>
+</body>
+</html>

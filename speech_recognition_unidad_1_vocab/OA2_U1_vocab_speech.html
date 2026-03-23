@@ -249,8 +249,8 @@
 
     <!-- Group selector -->
     <div class="group-selector">
-      <button class="group-btn active" id="btn-all" onclick="setGroup('all')">🌐 All (18 words)</button>
-      <button class="group-btn" id="btn-identity" onclick="setGroup('identity')">👤 Identity (10)</button>
+      <button class="group-btn active" id="btn-all" onclick="setGroup('all')">🌐 All (16 words)</button>
+      <button class="group-btn" id="btn-identity" onclick="setGroup('identity')">👤 Identity (8)</button>
       <button class="group-btn family" id="btn-family" onclick="setGroup('family')">👨‍👩‍👧 Family (8)</button>
     </div>
 
@@ -375,18 +375,7 @@ const ALL_WORDS = [
     tip:'Short "uh" vowel. FUN = "fuhn". Two syllables: FUN-ee. Rhymes with "sunny", "honey".',
     accept:['funny','funnier','funnies','fune','funy','funi','funi','sunny','money','honey','bunny','many']
   },
-  {
-    word:'nice', emoji:'😊', phonetic:'/naɪs/', translation:'Simpático/a', group:'identity',
-    hint:'One syllable. Rhymes with "ice".',
-    tip:'The vowel is "eye" like in "my". N + EYE + S. NYSS. Rhymes with "rice", "price", "twice".',
-    accept:['nice','nicer','nicest','nais','nise','nyss','mice','rice','price','twice','ice','dice']
-  },
-  {
-    word:'smart', emoji:'🧠', phonetic:'/smɑːrt/', translation:'Inteligente', group:'identity',
-    hint:'One syllable. SMART — the "ar" sounds like in "car".',
-    tip:'S + M + ART. The "ar" is like in "car" or "far". Don\'t say "esmarte". SMART.',
-    accept:['smart','smarter','smartest','smar','esmart','smort','start','heart','part','art','chart']
-  },
+
 
   // ── GROUP 2: FAMILY ──────────────────────────────────────────────────
   {
@@ -651,9 +640,12 @@ function setupRecognition(){
     clearWatchdog(); state.listening=false;
     const btn=el('btn-record');
     if(btn) btn.classList.remove('recording');
-    if(!state.resultReceived){ stopMeter(); hideProcessing(); restoreRecordBtn(); }
-    showProcessing();
-    setTimeout(()=>{ stopMeter(); hideProcessing(); if(state.micStream) startMeter(state.micStream); }, 600);
+    if(!state.resultReceived){
+      stopMeter(); hideProcessing(); restoreRecordBtn();
+    } else {
+      showProcessing();
+      setTimeout(()=>{ stopMeter(); hideProcessing(); if(state.micStream) startMeter(state.micStream); }, 600);
+    }
   };
   state.recognition = rec;
 }
@@ -933,3 +925,4 @@ function toggleTheme(){
 </script>
 </body>
 </html>
+

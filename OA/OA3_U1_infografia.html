@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@font-face { font-family:'Poppins'; font-weight:300; src:url('file:///usr/share/fonts/truetype/google-fonts/Poppins-Light.ttf'); }
+@font-face { font-family:'Poppins'; font-weight:400; src:url('file:///usr/share/fonts/truetype/google-fonts/Poppins-Regular.ttf'); }
+@font-face { font-family:'Poppins'; font-weight:500; src:url('file:///usr/share/fonts/truetype/google-fonts/Poppins-Medium.ttf'); }
+@font-face { font-family:'Poppins'; font-weight:700; src:url('file:///usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf'); }
+
+:root {
+  --bg:        #F4F1EB;
+  --header-bg: #2D2560;
+  --accent:    #7F77DD;
+  --accent2:   #0F6E56;
+  --accent3:   #854F0B;
+  --card:      #FFFFFF;
+  --text:      #1C1A14;
+  --text-lt:   #FAFAFA;
+  --border:    #D3D1C7;
+  --ex-bg:     #EEEDFE;
+  --fam-bg:    #E1F5EE;
+  --fam-hdr:   #0B4D3A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+
+body {
+  max-width: 720px;
+  margin: 0 auto;
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── HEADER ── */
+.hdr {
+  background: var(--header-bg);
+  padding: 28px 32px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.hdr::after {
+  content:'';
+  position:absolute; bottom:0; left:0; right:0; height:4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+}
+.hdr-tag {
+  font-size: .72rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:.1em;
+  color: var(--accent);
+  margin-bottom:8px;
+}
+.hdr-unit {
+  font-size: .78rem; font-weight:500;
+  color: #A8A0E8; margin-bottom:4px;
+}
+.hdr-title {
+  font-size: 2rem; font-weight:700;
+  color: var(--text-lt);
+  line-height:1.15; margin-bottom:6px;
+}
+.hdr-title span { color: var(--accent); }
+.hdr-sub {
+  font-size: .88rem; font-weight:300;
+  color: #B0ACDC; margin-bottom:12px;
+}
+.hdr-pills {
+  display:flex; gap:8px; flex-wrap:wrap;
+}
+.pill {
+  font-size:.7rem; font-weight:500;
+  padding:3px 10px; border-radius:20px;
+  border:1px solid;
+}
+.pill-purple { color:var(--accent);  border-color:var(--accent);  background:rgba(127,119,221,.15); }
+.pill-teal   { color:#5DCAA5;        border-color:#5DCAA5;         background:rgba(93,202,165,.12); }
+.pill-amber  { color:#EF9F27;        border-color:#EF9F27;         background:rgba(239,159,39,.12); }
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  display:flex; align-items:center; gap:10px;
+  padding:18px 24px 10px;
+}
+.sec-bar {
+  width:5px; height:28px; border-radius:3px; flex-shrink:0;
+}
+.sec-label {
+  font-size:1rem; font-weight:700;
+}
+.sec-count {
+  margin-left:auto; font-size:.72rem; font-weight:500;
+  color:var(--text); opacity:.5;
+  background:var(--border); padding:2px 9px; border-radius:20px;
+}
+
+/* ── WORD GRID ── */
+.word-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px; padding:0 16px 6px;
+}
+.word-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 1px 6px rgba(0,0,0,.06);
+}
+.wc-strip { height:5px; }
+.wc-body  { padding:11px 13px 10px; }
+.wc-en {
+  font-size:1.15rem; font-weight:700;
+  color:var(--text); line-height:1.1;
+}
+.wc-pos {
+  font-size:.65rem; font-weight:500;
+  text-transform:uppercase; letter-spacing:.07em;
+  opacity:.55; margin:2px 0 3px;
+}
+.wc-es {
+  font-size:.82rem; font-weight:500;
+  color:var(--text); opacity:.72;
+}
+.wc-phon {
+  font-size:.68rem; font-weight:300;
+  font-style:italic; color:#7F7A9A;
+  margin:3px 0 5px;
+}
+.wc-ex {
+  font-size:.72rem; font-weight:400;
+  line-height:1.45;
+  padding:5px 8px;
+  border-radius:6px;
+  border-left:3px solid;
+}
+
+/* ── CAN-DO BOX ── */
+.cando-box {
+  margin:12px 16px;
+  background:var(--header-bg);
+  border-radius:12px;
+  padding:14px 18px;
+  display:flex; align-items:flex-start; gap:12px;
+}
+.cando-icon {
+  width:36px; height:36px; flex-shrink:0;
+  border-radius:50%; background:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem; color:#fff; font-weight:700;
+}
+.cando-text {
+  font-size:.82rem; color:#C8C4E8; line-height:1.5;
+}
+.cando-text b { color:var(--text-lt); display:block; margin-bottom:2px; font-size:.85rem; }
+
+/* ── GRAMMAR STRIP ── */
+.gram-strip {
+  margin:8px 16px 12px;
+  background:linear-gradient(135deg, #2D2560 0%, #3D3080 100%);
+  border-radius:12px; padding:12px 16px;
+}
+.gram-title {
+  font-size:.72rem; font-weight:600; text-transform:uppercase;
+  letter-spacing:.08em; color:var(--accent); margin-bottom:8px;
+}
+.gram-row {
+  display:flex; gap:8px; flex-wrap:wrap;
+}
+.gram-chip {
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:8px; padding:5px 11px;
+  font-size:.75rem; color:var(--text-lt);
+}
+.gram-chip b { color:var(--accent); }
+
+/* ── DIVIDER ── */
+.divider {
+  height:3px;
+  background:linear-gradient(90deg, var(--accent), var(--accent2));
+  margin:12px 16px;
+  border-radius:3px;
+}
+
+/* ── FOOTER ── */
+.ftr {
+  background:var(--header-bg);
+  padding:12px 24px;
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:8px;
+}
+.ftr-left  { font-size:.72rem; color:#7A76B0; }
+.ftr-right { font-size:.72rem; color:var(--accent); font-weight:500; }
+
+/* ── UDL NOTE ── */
+.udl-note {
+  padding:6px 24px 4px;
+  font-size:.65rem; font-weight:300; color:#9A96B8;
+  text-align:center; background:var(--header-bg);
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="hdr">
+  <div class="hdr-tag">EDAV · Ecosistema Digital de Aprendizaje Virtual</div>
+  <div class="hdr-unit">CEFR A1 · Secundaria 143 · Coatzacoalcos, Ver.</div>
+  <div class="hdr-title">Unit 1 — <span>Who Am I?</span></div>
+  <div class="hdr-sub">Identity &amp; Family · BNC/COCA Top-Frequency Words · Paul Nation</div>
+  <div class="hdr-pills">
+    <span class="pill pill-purple">51 A1 words</span>
+    <span class="pill pill-teal">Verb TO BE</span>
+    <span class="pill pill-amber">Bloom: Remember &amp; Understand</span>
+  </div>
+</div>
+
+<!-- ══ CAN-DO ══ -->
+<div class="cando-box">
+  <div class="cando-icon">✓</div>
+  <div class="cando-text">
+    <b>Can-do statement (MCER A1)</b>
+    I can introduce myself, say my age and country, and describe someone in my family using basic adjectives.
+  </div>
+</div>
+
+<!-- ══ SECTION 1: IDENTITY ══ -->
+<div class="sec-title">
+  <div class="sec-bar" style="background:var(--accent)"></div>
+  <span class="sec-label" style="color:var(--accent)">Group 1 — Identity</span>
+  <span class="sec-count">30 words</span>
+</div>
+
+<div class="word-grid">
+
+  <!-- name -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:var(--accent)"></div>
+    <div class="wc-body">
+      <div class="wc-en">name</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">nombre</div>
+      <div class="wc-phon">/neɪm/</div>
+      <div class="wc-ex" style="background:var(--ex-bg);border-color:var(--accent);color:#3C3489">
+        My <b>name</b> is Ana. What's your <b>name</b>?
+      </div>
+    </div>
+  </div>
+
+  <!-- age -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:var(--accent)"></div>
+    <div class="wc-body">
+      <div class="wc-en">age</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">edad</div>
+      <div class="wc-phon">/eɪdʒ/</div>
+      <div class="wc-ex" style="background:var(--ex-bg);border-color:var(--accent);color:#3C3489">
+        My <b>age</b> is 13. How old are you?
+      </div>
+    </div>
+  </div>
+
+  <!-- country -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#5046A0"></div>
+    <div class="wc-body">
+      <div class="wc-en">country</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">país</div>
+      <div class="wc-phon">/ˈkʌntri/</div>
+      <div class="wc-ex" style="background:var(--ex-bg);border-color:#5046A0;color:#3C3489">
+        My <b>country</b> is Mexico. I am from Mexico.
+      </div>
+    </div>
+  </div>
+
+  <!-- city -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#5046A0"></div>
+    <div class="wc-body">
+      <div class="wc-en">city</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">ciudad</div>
+      <div class="wc-phon">/ˈsɪti/</div>
+      <div class="wc-ex" style="background:var(--ex-bg);border-color:#5046A0;color:#3C3489">
+        My <b>city</b> is Coatzacoalcos. It is big.
+      </div>
+    </div>
+  </div>
+
+  <!-- tall -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#6B3FA0"></div>
+    <div class="wc-body">
+      <div class="wc-en">tall</div>
+      <div class="wc-pos">adjective</div>
+      <div class="wc-es">alto/a</div>
+      <div class="wc-phon">/tɔːl/</div>
+      <div class="wc-ex" style="background:var(--ex-bg);border-color:#6B3FA0;color:#3C3489">
+        My brother is very <b>tall</b>.
+      </div>
+    </div>
+  </div>
+
+  <!-- young -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#6B3FA0"></div>
+    <div class="wc-body">
+      <div class="wc-en">young</div>
+      <div class="wc-pos">adjective</div>
+      <div class="wc-es">joven</div>
+      <div class="wc-phon">/jʌŋ/</div>
+      <div class="wc-ex" style="background:var(--ex-bg);border-color:#6B3FA0;color:#3C3489">
+        She is very <b>young</b>. She is 12.
+      </div>
+    </div>
+  </div>
+
+  <!-- kind -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#9B59B6"></div>
+    <div class="wc-body">
+      <div class="wc-en">kind</div>
+      <div class="wc-pos">adjective</div>
+      <div class="wc-es">amable</div>
+      <div class="wc-phon">/kaɪnd/</div>
+      <div class="wc-ex" style="background:var(--ex-bg);border-color:#9B59B6;color:#3C3489">
+        My teacher is very <b>kind</b>.
+      </div>
+    </div>
+  </div>
+
+  <!-- funny -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#9B59B6"></div>
+    <div class="wc-body">
+      <div class="wc-en">funny</div>
+      <div class="wc-pos">adjective</div>
+      <div class="wc-es">gracioso/a</div>
+      <div class="wc-phon">/ˈfʌni/</div>
+      <div class="wc-ex" style="background:var(--ex-bg);border-color:#9B59B6;color:#3C3489">
+        My friend is so <b>funny</b>!
+      </div>
+    </div>
+  </div>
+
+</div><!-- /word-grid identity -->
+
+<!-- ══ GRAMMAR STRIP ══ -->
+<div class="gram-strip">
+  <div class="gram-title">Key Grammar — Unit 1</div>
+  <div class="gram-row">
+    <div class="gram-chip"><b>I am</b> — She/He is — You/We/They are</div>
+    <div class="gram-chip"><b>my</b> / your / his / her</div>
+    <div class="gram-chip">What's your <b>name</b>?</div>
+    <div class="gram-chip">How <b>old</b> are you?</div>
+    <div class="gram-chip">She <b>is</b> tall and kind.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ SECTION 2: FAMILY ══ -->
+<div class="sec-title">
+  <div class="sec-bar" style="background:var(--accent2)"></div>
+  <span class="sec-label" style="color:var(--accent2)">Group 2 — Family</span>
+  <span class="sec-count">21 words</span>
+</div>
+
+<div class="word-grid">
+
+  <!-- mother -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:var(--accent2)"></div>
+    <div class="wc-body">
+      <div class="wc-en">mother</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">madre / mamá</div>
+      <div class="wc-phon">/ˈmʌðər/</div>
+      <div class="wc-ex" style="background:var(--fam-bg);border-color:var(--accent2);color:var(--fam-hdr)">
+        My <b>mother</b> is a teacher. She is 40.
+      </div>
+    </div>
+  </div>
+
+  <!-- father -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:var(--accent2)"></div>
+    <div class="wc-body">
+      <div class="wc-en">father</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">padre / papá</div>
+      <div class="wc-phon">/ˈfɑːðər/</div>
+      <div class="wc-ex" style="background:var(--fam-bg);border-color:var(--accent2);color:var(--fam-hdr)">
+        My <b>father</b> is tall. He is 45.
+      </div>
+    </div>
+  </div>
+
+  <!-- sister -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#1A8C6A"></div>
+    <div class="wc-body">
+      <div class="wc-en">sister</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">hermana</div>
+      <div class="wc-phon">/ˈsɪstər/</div>
+      <div class="wc-ex" style="background:var(--fam-bg);border-color:#1A8C6A;color:var(--fam-hdr)">
+        My <b>sister</b>'s name is Laura.
+      </div>
+    </div>
+  </div>
+
+  <!-- brother -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#1A8C6A"></div>
+    <div class="wc-body">
+      <div class="wc-en">brother</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">hermano</div>
+      <div class="wc-phon">/ˈbrʌðər/</div>
+      <div class="wc-ex" style="background:var(--fam-bg);border-color:#1A8C6A;color:var(--fam-hdr)">
+        My <b>brother</b> is 16. He is funny.
+      </div>
+    </div>
+  </div>
+
+  <!-- son -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#2DAA82"></div>
+    <div class="wc-body">
+      <div class="wc-en">son</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">hijo</div>
+      <div class="wc-phon">/sʌn/</div>
+      <div class="wc-ex" style="background:var(--fam-bg);border-color:#2DAA82;color:var(--fam-hdr)">
+        Her <b>son</b> is 8 years old.
+      </div>
+    </div>
+  </div>
+
+  <!-- daughter -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#2DAA82"></div>
+    <div class="wc-body">
+      <div class="wc-en">daughter</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">hija</div>
+      <div class="wc-phon">/ˈdɔːtər/</div>
+      <div class="wc-ex" style="background:var(--fam-bg);border-color:#2DAA82;color:var(--fam-hdr)">
+        His <b>daughter</b> is young and kind.
+      </div>
+    </div>
+  </div>
+
+  <!-- friend -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#3DC49A"></div>
+    <div class="wc-body">
+      <div class="wc-en">friend</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">amigo/a</div>
+      <div class="wc-phon">/frend/</div>
+      <div class="wc-ex" style="background:var(--fam-bg);border-color:#3DC49A;color:var(--fam-hdr)">
+        My best <b>friend</b> is nice and funny.
+      </div>
+    </div>
+  </div>
+
+  <!-- family -->
+  <div class="word-card">
+    <div class="wc-strip" style="background:#3DC49A"></div>
+    <div class="wc-body">
+      <div class="wc-en">family</div>
+      <div class="wc-pos">noun</div>
+      <div class="wc-es">familia</div>
+      <div class="wc-phon">/ˈfæmɪli/</div>
+      <div class="wc-ex" style="background:var(--fam-bg);border-color:#3DC49A;color:var(--fam-hdr)">
+        My <b>family</b> is big. I love my family.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /word-grid family -->
+
+<!-- ══ FOOTER ══ -->
+<div style="height:10px;background:var(--bg)"></div>
+<div class="ftr">
+  <div class="ftr-left">Innovación Tecnológica en el Aula · IESAM 2026 · OA3 — Unidad 1</div>
+  <div class="ftr-right">Jesús Sentíes Maqueda</div>
+</div>
+<div class="udl-note">
+  DUA: representación multimodal (visual + texto + fonética + ejemplo). Fuente: BNC/COCA · Paul Nation · CEFR A1.
+</div>
+
+</body>
+</html>

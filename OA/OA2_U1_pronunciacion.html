@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Unit 1 — Say It Right! · Pronunciation Practice</title>
+<style>
+/* ── PALETTE ── */
+:root {
+  --bg:#f5f3ee; --bg2:#eceae3; --bg3:#dedad1; --card:#ffffff;
+  --text:#1c1a14; --text2:#5f5e5a; --border:#d3d1c7;
+  --purple:#534ab7; --purpleL:#eeedfe; --purpleM:#7f77dd;
+  --teal:#0f6e56;   --tealL:#e1f5ee;   --tealM:#1d9e75;
+  --amber:#854f0b;  --amberL:#faeeda;  --amberM:#ba7517;
+  --coral:#993c1d;  --coralL:#faece7;
+  --green:#3b6d11;  --greenL:#eaf3de;
+  --red:#a32d2d;    --redL:#fcebeb;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+  --radius:12px;
+}
+[data-theme="dark"] {
+  --bg:#1c1a14; --bg2:#26241c; --bg3:#2e2c22; --card:#2e2c22;
+  --text:#e8e6de; --text2:#9c9a92; --border:#3d3d37;
+  --purple:#7f77dd; --purpleL:#26215c; --purpleM:#534ab7;
+  --teal:#1d9e75;   --tealL:#04342c;   --tealM:#0f6e56;
+  --amber:#ef9f27;  --amberL:#412402;  --amberM:#854f0b;
+  --coral:#d85a30;  --coralL:#4a1b0c;
+  --green:#639922;  --greenL:#173404;
+  --red:#e24b4a;    --redL:#501313;
+  --shadow:0 2px 12px rgba(0,0,0,0.3);
+}
+
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;
+  -webkit-user-select:none;user-select:none;
+  transition:background .25s,color .25s;
+}
+button{cursor:pointer;border:none;font-family:inherit;transition:all .2s}
+
+/* ── TTS LOADING BANNER ── */
+#tts-banner{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--purple);color:#fff;
+  padding:10px 20px;
+  display:flex;align-items:center;gap:12px;
+  font-size:.85rem;z-index:999;
+  transform:translateY(0);transition:transform .4s;
+}
+#tts-banner.hidden{transform:translateY(100%);}
+#tts-spinner{
+  width:18px;height:18px;flex-shrink:0;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+#tts-ok{font-size:1.1rem;display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:sticky;top:0;z-index:10;
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:12px 20px;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:var(--shadow);
+}
+.topbar-logo{font-size:1.5rem}
+.topbar-info{flex:1}
+.topbar-title{font-size:1rem;font-weight:700;color:var(--purple)}
+.topbar-sub{font-size:.75rem;color:var(--text2);margin-top:1px}
+.theme-btn{
+  background:var(--bg2);color:var(--text2);
+  border:1px solid var(--border);
+  border-radius:20px;padding:4px 12px;font-size:.78rem;
+}
+
+/* ── PROGRESS BAR ── */
+.prog-wrap{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:8px 20px;
+  display:flex;align-items:center;gap:12px;
+}
+.prog-track{flex:1;height:8px;background:var(--bg3);border-radius:8px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--teal));
+  border-radius:8px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.prog-label{font-size:.78rem;color:var(--text2);white-space:nowrap}
+
+/* ── TABS ── */
+.tabs{
+  display:flex;gap:0;
+  border-bottom:2px solid var(--border);
+  background:var(--card);
+  overflow-x:auto;
+}
+.tab-btn{
+  flex:1;min-width:80px;padding:10px 6px;
+  font-size:.8rem;font-weight:600;color:var(--text2);
+  background:transparent;
+  border-bottom:3px solid transparent;
+  white-space:nowrap;
+}
+.tab-btn.active{color:var(--purple);border-bottom-color:var(--purple);}
+.tab-btn:hover:not(.active){color:var(--text);background:var(--bg2)}
+
+/* ── SCREENS ── */
+.screen{display:none;padding-bottom:80px}
+.screen.active{display:block}
+
+/* ── SECTION HEADER ── */
+.section-header{
+  padding:16px 20px 8px;
+  font-size:.78rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.07em;
+  color:var(--text2);
+}
+
+/* ── PAIR CARD ── */
+.pair-card{
+  margin:0 16px 14px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.pair-card.done-correct{border-color:var(--green)}
+.pair-card.done-wrong  {border-color:var(--red)}
+
+.pair-top{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 16px 10px;
+}
+.pair-word-display{
+  flex:1;font-size:2rem;font-weight:700;
+  color:var(--text2);letter-spacing:.04em;
+  min-height:44px;display:flex;align-items:center;
+}
+.pair-word-display.revealed{color:var(--text)}
+
+/* PLAY BUTTON */
+.btn-play{
+  background:var(--purple);color:#fff;
+  padding:9px 16px;border-radius:8px;
+  font-size:.85rem;font-weight:600;
+  display:flex;align-items:center;gap:6px;
+}
+.btn-play:hover{background:var(--purpleM)}
+.btn-play:disabled{opacity:.45;cursor:not-allowed}
+
+/* PLAY DOTS */
+.play-dots{display:flex;gap:5px;justify-content:center;margin-top:4px}
+.play-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:var(--bg3);border:1px solid var(--border);
+  transition:all .2s;
+}
+.play-dot.active {background:var(--purple);border-color:var(--purple);transform:scale(1.2)}
+.play-dot.done   {background:var(--teal);  border-color:var(--teal)}
+
+/* PHONETIC */
+.pair-phonetic{
+  padding:0 16px 6px;
+  font-size:.82rem;color:var(--text2);font-style:italic;
+}
+
+/* HINT */
+.pair-hint{
+  padding:6px 16px 10px;
+  font-size:.8rem;color:var(--text2);
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.pair-hint b{color:var(--text)}
+
+/* CHOICES */
+.pair-choices{
+  display:flex;gap:10px;padding:12px 16px;
+}
+.choice-btn{
+  flex:1;padding:11px 8px;
+  background:var(--bg2);border:2px solid var(--border);
+  border-radius:10px;
+  font-size:.95rem;font-weight:600;color:var(--text);
+}
+.choice-btn:hover:not(:disabled){
+  border-color:var(--purple);background:var(--purpleL);color:var(--purple);
+}
+.choice-btn:disabled{cursor:not-allowed}
+.choice-btn.correct{
+  background:var(--greenL);border-color:var(--green);color:var(--green);
+  animation:pulse .35s ease;
+}
+.choice-btn.wrong{
+  background:var(--redL);border-color:var(--red);color:var(--red);
+  animation:shake .35s ease;
+}
+
+/* FEEDBACK */
+.pair-feedback{
+  padding:0 16px;max-height:0;overflow:hidden;
+  font-size:.85rem;line-height:1.5;
+  transition:max-height .3s,padding .3s;
+}
+.pair-feedback.show{
+  max-height:200px;padding:10px 16px 14px;
+}
+.pair-feedback.correct{color:var(--green)}
+.pair-feedback.wrong  {color:var(--red)}
+
+/* ── SCORE BAR ── */
+.score-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--card);border-top:1px solid var(--border);
+  padding:10px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;z-index:50;
+}
+.score-chips{display:flex;gap:8px}
+.score-chip{
+  padding:4px 12px;border-radius:20px;
+  font-size:.82rem;font-weight:600;
+}
+.chip-correct{background:var(--greenL);color:var(--green)}
+.chip-wrong  {background:var(--redL);  color:var(--red)}
+.chip-total  {background:var(--purpleL);color:var(--purple)}
+.reset-btn{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;padding:6px 14px;
+  font-size:.8rem;color:var(--text2);
+}
+.reset-btn:hover{background:var(--bg3)}
+
+/* ── COMPLETION ── */
+.completion{
+  margin:20px 16px;padding:28px 20px;
+  background:var(--purpleL);border:2px solid var(--purpleM);
+  border-radius:var(--radius);text-align:center;
+  display:none;
+}
+.completion.show{display:block;animation:pulse .5s ease}
+.completion-icon{font-size:3rem;margin-bottom:8px}
+.completion-title{font-size:1.3rem;font-weight:700;color:var(--purple)}
+.completion-sub{font-size:.9rem;color:var(--purpleM);margin-top:6px}
+
+/* ── ANIMATIONS ── */
+@keyframes pulse{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:480px){
+  .pair-word-display{font-size:1.6rem}
+  .choice-btn{font-size:.85rem;padding:10px 6px}
+  .topbar-title{font-size:.9rem}
+}
+</style>
+</head>
+<body data-theme="light"
+  oncontextmenu="return false"
+  oncopy="return false"
+  onpaste="return false"
+  oncut="return false">
+
+<!-- TTS BANNER -->
+<div id="tts-banner">
+  <div id="tts-spinner"></div>
+  <div id="tts-ok">🔊</div>
+  <div id="tts-msg">Loading voice model… first time ~310MB, then works offline!</div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">🎧</div>
+  <div class="topbar-info">
+    <div class="topbar-title">Say It Right! — Unit 1</div>
+    <div class="topbar-sub">Identity &amp; Family · 3 groups · 12 pairs · CEFR A1</div>
+  </div>
+  <button class="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-wrap">
+  <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  <span class="prog-label" id="progLabel">0 / 12</span>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" id="tab0" onclick="showTab(0)">🔊 To Be</button>
+  <button class="tab-btn"        id="tab1" onclick="showTab(1)">👤 Identity</button>
+  <button class="tab-btn"        id="tab2" onclick="showTab(2)">👨‍👩‍👧 Family</button>
+</div>
+
+<!-- ════════════════════════════════════════
+     TAB 0 — TO BE SOUNDS
+════════════════════════════════════════ -->
+<div class="screen active" id="screen0">
+  <div class="section-header">Group 1 · Verb TO BE — Key contrasts</div>
+  <p style="padding:0 16px 12px;font-size:.85rem;color:var(--text2)">
+    Listen to each word. Choose the one you hear. Press ▶ PLAY and listen carefully!
+  </p>
+
+  <!-- CARD 0: am / are -->
+  <div class="pair-card" id="card0">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd0">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(0)">▶ PLAY</button>
+        <div class="play-dots" id="dots0">
+          <span class="play-dot" id="dot0-0"></span>
+          <span class="play-dot" id="dot0-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph0"></div>
+    <div class="pair-hint">Tip: <b>am</b> = /æm/ short 'a' (I AM) · <b>are</b> = /ɑːr/ open 'a' (YOU ARE)</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(0,'am')">am</button>
+      <button class="choice-btn" onclick="answerCard(0,'are')">are</button>
+    </div>
+    <div class="pair-feedback" id="fb0"></div>
+  </div>
+
+  <!-- CARD 1: is / it's -->
+  <div class="pair-card" id="card1">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd1">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(1)">▶ PLAY</button>
+        <div class="play-dots" id="dots1">
+          <span class="play-dot" id="dot1-0"></span>
+          <span class="play-dot" id="dot1-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph1"></div>
+    <div class="pair-hint">Tip: <b>is</b> = /ɪz/ one syllable · <b>it's</b> = /ɪts/ — notice the final 's' sound</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(1,'is')">is</button>
+      <button class="choice-btn" onclick="answerCard(1,\"it's\")">it's</button>
+    </div>
+    <div class="pair-feedback" id="fb1"></div>
+  </div>
+
+  <!-- CARD 2: he / she -->
+  <div class="pair-card" id="card2">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd2">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(2)">▶ PLAY</button>
+        <div class="play-dots" id="dots2">
+          <span class="play-dot" id="dot2-0"></span>
+          <span class="play-dot" id="dot2-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph2"></div>
+    <div class="pair-hint">Tip: <b>he</b> = /hiː/ starts with 'h' sound · <b>she</b> = /ʃiː/ starts with 'sh' sound</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(2,'he')">he</button>
+      <button class="choice-btn" onclick="answerCard(2,'she')">she</button>
+    </div>
+    <div class="pair-feedback" id="fb2"></div>
+  </div>
+
+  <!-- CARD 3: his / her -->
+  <div class="pair-card" id="card3">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd3">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(3)">▶ PLAY</button>
+        <div class="play-dots" id="dots3">
+          <span class="play-dot" id="dot3-0"></span>
+          <span class="play-dot" id="dot3-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph3"></div>
+    <div class="pair-hint">Tip: <b>his</b> = /hɪz/ ends with 'z' · <b>her</b> = /hɜːr/ ends with 'r' sound</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(3,'his')">his</button>
+      <button class="choice-btn" onclick="answerCard(3,'her')">her</button>
+    </div>
+    <div class="pair-feedback" id="fb3"></div>
+  </div>
+
+  <div class="completion" id="done0">
+    <div class="completion-icon">🔵</div>
+    <div class="completion-title">TO BE Sounds — Complete!</div>
+    <div class="completion-sub">Great listening! Go to Tab 2 for Identity words.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     TAB 1 — IDENTITY WORDS
+════════════════════════════════════════ -->
+<div class="screen" id="screen1">
+  <div class="section-header">Group 2 · Identity Vocabulary (BNC/COCA A1)</div>
+  <p style="padding:0 16px 12px;font-size:.85rem;color:var(--text2)">
+    These words are from the most frequent English word list. Listen and choose!
+  </p>
+
+  <!-- CARD 4: name / age -->
+  <div class="pair-card" id="card4">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd4">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(4)">▶ PLAY</button>
+        <div class="play-dots" id="dots4">
+          <span class="play-dot" id="dot4-0"></span>
+          <span class="play-dot" id="dot4-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph4"></div>
+    <div class="pair-hint">Tip: <b>name</b> = /neɪm/ long 'a' sound · <b>age</b> = /eɪdʒ/ ends with 'j' sound</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(4,'name')">name</button>
+      <button class="choice-btn" onclick="answerCard(4,'age')">age</button>
+    </div>
+    <div class="pair-feedback" id="fb4"></div>
+  </div>
+
+  <!-- CARD 5: tall / old -->
+  <div class="pair-card" id="card5">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd5">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(5)">▶ PLAY</button>
+        <div class="play-dots" id="dots5">
+          <span class="play-dot" id="dot5-0"></span>
+          <span class="play-dot" id="dot5-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph5"></div>
+    <div class="pair-hint">Tip: <b>tall</b> = /tɔːl/ starts with 't' · <b>old</b> = /oʊld/ starts with 'o' vowel</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(5,'tall')">tall</button>
+      <button class="choice-btn" onclick="answerCard(5,'old')">old</button>
+    </div>
+    <div class="pair-feedback" id="fb5"></div>
+  </div>
+
+  <!-- CARD 6: kind / nice -->
+  <div class="pair-card" id="card6">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd6">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(6)">▶ PLAY</button>
+        <div class="play-dots" id="dots6">
+          <span class="play-dot" id="dot6-0"></span>
+          <span class="play-dot" id="dot6-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph6"></div>
+    <div class="pair-hint">Tip: <b>kind</b> = /kaɪnd/ starts with 'k' · <b>nice</b> = /naɪs/ starts with 'n'</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(6,'kind')">kind</button>
+      <button class="choice-btn" onclick="answerCard(6,'nice')">nice</button>
+    </div>
+    <div class="pair-feedback" id="fb6"></div>
+  </div>
+
+  <!-- CARD 7: young / funny -->
+  <div class="pair-card" id="card7">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd7">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(7)">▶ PLAY</button>
+        <div class="play-dots" id="dots7">
+          <span class="play-dot" id="dot7-0"></span>
+          <span class="play-dot" id="dot7-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph7"></div>
+    <div class="pair-hint">Tip: <b>young</b> = /jʌŋ/ 1 syllable · <b>funny</b> = /ˈfʌni/ 2 syllables FUN-ny</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(7,'young')">young</button>
+      <button class="choice-btn" onclick="answerCard(7,'funny')">funny</button>
+    </div>
+    <div class="pair-feedback" id="fb7"></div>
+  </div>
+
+  <div class="completion" id="done1">
+    <div class="completion-icon">🟣</div>
+    <div class="completion-title">Identity Words — Complete!</div>
+    <div class="completion-sub">Excellent! Go to Tab 3 for Family words.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     TAB 2 — FAMILY WORDS
+════════════════════════════════════════ -->
+<div class="screen" id="screen2">
+  <div class="section-header">Group 3 · Family Vocabulary (BNC/COCA A1)</div>
+  <p style="padding:0 16px 12px;font-size:.85rem;color:var(--text2)">
+    Listen carefully — some family words sound very similar!
+  </p>
+
+  <!-- CARD 8: mother / brother -->
+  <div class="pair-card" id="card8">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd8">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(8)">▶ PLAY</button>
+        <div class="play-dots" id="dots8">
+          <span class="play-dot" id="dot8-0"></span>
+          <span class="play-dot" id="dot8-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph8"></div>
+    <div class="pair-hint">Tip: <b>mother</b> = /ˈmʌðər/ starts 'm' · <b>brother</b> = /ˈbrʌðər/ starts 'br'</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(8,'mother')">mother</button>
+      <button class="choice-btn" onclick="answerCard(8,'brother')">brother</button>
+    </div>
+    <div class="pair-feedback" id="fb8"></div>
+  </div>
+
+  <!-- CARD 9: father / daughter -->
+  <div class="pair-card" id="card9">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd9">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(9)">▶ PLAY</button>
+        <div class="play-dots" id="dots9">
+          <span class="play-dot" id="dot9-0"></span>
+          <span class="play-dot" id="dot9-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph9"></div>
+    <div class="pair-hint">Tip: <b>father</b> = /ˈfɑːðər/ 'f' start · <b>daughter</b> = /ˈdɔːtər/ 'gh' is silent!</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(9,'father')">father</button>
+      <button class="choice-btn" onclick="answerCard(9,'daughter')">daughter</button>
+    </div>
+    <div class="pair-feedback" id="fb9"></div>
+  </div>
+
+  <!-- CARD 10: sister / cousin -->
+  <div class="pair-card" id="card10">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd10">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(10)">▶ PLAY</button>
+        <div class="play-dots" id="dots10">
+          <span class="play-dot" id="dot10-0"></span>
+          <span class="play-dot" id="dot10-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph10"></div>
+    <div class="pair-hint">Tip: <b>sister</b> = /ˈsɪstər/ 'ss' in middle · <b>cousin</b> = /ˈkʌzən/ 'z' sound in middle</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(10,'sister')">sister</button>
+      <button class="choice-btn" onclick="answerCard(10,'cousin')">cousin</button>
+    </div>
+    <div class="pair-feedback" id="fb10"></div>
+  </div>
+
+  <!-- CARD 11: son / aunt -->
+  <div class="pair-card" id="card11">
+    <div class="pair-top">
+      <div class="pair-word-display" id="wd11">??</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0">
+        <button class="btn-play" onclick="playWord(11)">▶ PLAY</button>
+        <div class="play-dots" id="dots11">
+          <span class="play-dot" id="dot11-0"></span>
+          <span class="play-dot" id="dot11-1"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pair-phonetic" id="ph11"></div>
+    <div class="pair-hint">Tip: <b>son</b> = /sʌn/ 1 syllable (like 'sun') · <b>aunt</b> = /ænt/ — different vowel!</div>
+    <div class="pair-choices">
+      <button class="choice-btn" onclick="answerCard(11,'son')">son</button>
+      <button class="choice-btn" onclick="answerCard(11,'aunt')">aunt</button>
+    </div>
+    <div class="pair-feedback" id="fb11"></div>
+  </div>
+
+  <div class="completion" id="done2">
+    <div class="completion-icon">🎉</div>
+    <div class="completion-title">All Groups Complete!</div>
+    <div class="completion-sub">You listened to 12 words and identified them all. Excellent pronunciation ear!</div>
+  </div>
+</div>
+
+<!-- SCORE BAR -->
+<div class="score-bar">
+  <div class="score-chips">
+    <span class="score-chip chip-correct" id="chipCorrect">✓ 0</span>
+    <span class="score-chip chip-wrong"   id="chipWrong">✗ 0</span>
+    <span class="score-chip chip-total"   id="chipTotal">0/12</span>
+  </div>
+  <button class="reset-btn" onclick="resetAll()">🔄 Reset</button>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  ITEMS — word pairs with feedback
+//  index matches card number (0-11)
+// ════════════════════════════════════════════════════════
+var items = [
+  // Tab 0 — TO BE sounds
+  { options:['am','are'],
+    tip0:'✅ Correct! "am" — /æm/ — used only with I. "I am a student." The vowel is short.',
+    tip1:'✅ Correct! "are" — /ɑːr/ — used with you/we/they. "You are my friend."' },
+  { options:['is',"it's"],
+    tip0:'✅ "is" — /ɪz/ — used with he/she/it. "She is tall." One clean syllable.',
+    tip1:"✅ \"it's\" — /ɪts/ — contraction of 'it is'. Notice the final 's' sound: 'it-s'." },
+  { options:['he','she'],
+    tip0:"✅ \"he\" — /hiː/ — breathe out first (h), then long 'ee'. For male people.",
+    tip1:"✅ \"she\" — /ʃiː/ — 'sh' sound like in 'shh', then long 'ee'. For female people." },
+  { options:['his','her'],
+    tip0:"✅ \"his\" — /hɪz/ — ends with a 'z' buzz. His book = the boy's book.",
+    tip1:"✅ \"her\" — /hɜːr/ — ends with 'r' sound. Her bag = the girl's bag." },
+  // Tab 1 — Identity
+  { options:['name','age'],
+    tip0:"✅ \"name\" — /neɪm/ — long 'a' like in 'game'. What's your name?",
+    tip1:"✅ \"age\" — /eɪdʒ/ — ends with a soft 'j' sound. How old are you? = What is your age?" },
+  { options:['tall','old'],
+    tip0:"✅ \"tall\" — /tɔːl/ — 't' + open 'aw' vowel. She is very tall.",
+    tip1:"✅ \"old\" — /oʊld/ — 'o' + 'l' + 'd'. He is 40 years old." },
+  { options:['kind','nice'],
+    tip0:"✅ \"kind\" — /kaɪnd/ — hard 'k', then 'eye' sound. She is very kind = amable.",
+    tip1:"✅ \"nice\" — /naɪs/ — 'n' + 'eye' + 's'. He is so nice = simpático." },
+  { options:['young','funny'],
+    tip0:"✅ \"young\" — /jʌŋ/ — one syllable. Starts like 'y' in 'yes'. She is young.",
+    tip1:"✅ \"funny\" — /ˈfʌni/ — 2 syllables: FUN-ny. He is very funny = gracioso." },
+  // Tab 2 — Family
+  { options:['mother','brother'],
+    tip0:"✅ \"mother\" — /ˈmʌðər/ — 'M' start + 'th' in the middle. = Mamá.",
+    tip1:"✅ \"brother\" — /ˈbrʌðər/ — 'BR' start + 'th' in the middle. = Hermano." },
+  { options:['father','daughter'],
+    tip0:"✅ \"father\" — /ˈfɑːðər/ — 'F' start. The 'th' sounds like the Spanish 'd'. = Papá.",
+    tip1:"✅ \"daughter\" — /ˈdɔːtər/ — 'D' start. The 'gh' is SILENT — say 'DAW-ter'. = Hija." },
+  { options:['sister','cousin'],
+    tip0:"✅ \"sister\" — /ˈsɪstər/ — 'SS' sound in the middle. SIS-ter. = Hermana.",
+    tip1:"✅ \"cousin\" — /ˈkʌzən/ — 'Z' sound in the middle. CUZ-in. = Primo/a." },
+  { options:['son','aunt'],
+    tip0:"✅ \"son\" — /sʌn/ — sounds exactly like 'sun' ☀️. One syllable. = Hijo.",
+    tip1:"✅ \"aunt\" — /ænt/ — short 'a' like in 'cat'. One syllable. = Tía." },
+];
+
+// phonetics shown after first play
+var phonetics = [
+  ['I am /æm/','You are /ɑːr/'],
+  ['is /ɪz/',"it's /ɪts/"],
+  ['he /hiː/','she /ʃiː/'],
+  ['his /hɪz/','her /hɜːr/'],
+  ['name /neɪm/','age /eɪdʒ/'],
+  ['tall /tɔːl/','old /oʊld/'],
+  ['kind /kaɪnd/','nice /naɪs/'],
+  ['young /jʌŋ/','funny /ˈfʌni/'],
+  ['mother /ˈmʌðər/','brother /ˈbrʌðər/'],
+  ['father /ˈfɑːðər/','daughter /ˈdɔːtər/'],
+  ['sister /ˈsɪstər/','cousin /ˈkʌzən/'],
+  ['son /sʌn/','aunt /ænt/'],
+];
+
+// tab ranges
+var tabRanges = [[0,3],[4,7],[8,11]];
+
+// ── STATE ──
+var currentWords = items.map(function(d){
+  return Math.random() < 0.5 ? d.options[0] : d.options[1];
+});
+var answered = items.map(function(){ return false; });
+var scoreCorrect = 0, scoreWrong = 0;
+var totalCards = items.length;
+
+// ── TABS ──
+function showTab(t) {
+  for (var i = 0; i < 3; i++) {
+    document.getElementById('screen'+i).classList.toggle('active', i === t);
+    document.getElementById('tab'+i).classList.toggle('active', i === t);
+  }
+}
+
+// ── PLAY ──
+function playWord(idx) {
+  var d0 = document.getElementById('dot'+idx+'-0');
+  var d1 = document.getElementById('dot'+idx+'-1');
+  if (d0) d0.className = 'play-dot';
+  if (d1) d1.className = 'play-dot';
+  // Show phonetic after first play
+  var phEl = document.getElementById('ph'+idx);
+  if (phEl) {
+    var wordIdx = items[idx].options.indexOf(currentWords[idx]);
+    phEl.textContent = phonetics[idx][wordIdx];
+  }
+  speak(currentWords[idx], idx);
+}
+
+// ── ANSWER ──
+function answerCard(idx, chosen) {
+  if (answered[idx]) return;
+  answered[idx] = true;
+  var correct = chosen === currentWords[idx];
+  var fb = document.getElementById('fb'+idx);
+  var card = document.getElementById('card'+idx);
+  var tip = correct ? items[idx].tip0 : items[idx].tip1;
+  // We check which option matched
+  if (correct) {
+    tip = currentWords[idx] === items[idx].options[0] ? items[idx].tip0 : items[idx].tip1;
+  } else {
+    tip = currentWords[idx] === items[idx].options[0] ? items[idx].tip0 : items[idx].tip1;
+    // Show the correct answer in tip
+    tip += ' The word was: <b>' + currentWords[idx] + '</b>';
+  }
+
+  // Style buttons
+  var btns = document.querySelectorAll('#card'+idx+' .choice-btn');
+  btns.forEach(function(b) {
+    b.disabled = true;
+    if (b.textContent.trim() === chosen) {
+      b.classList.add(correct ? 'correct' : 'wrong');
+    }
+    if (!correct && b.textContent.trim() === currentWords[idx]) {
+      b.classList.add('correct');
+    }
+  });
+
+  // Reveal word
+  var wd = document.getElementById('wd'+idx);
+  if (wd) { wd.textContent = currentWords[idx]; wd.classList.add('revealed'); }
+
+  // Feedback
+  if (fb) {
+    fb.innerHTML = tip;
+    fb.className = 'pair-feedback show ' + (correct ? 'correct' : 'wrong');
+  }
+
+  // Card border
+  card.classList.add(correct ? 'done-correct' : 'done-wrong');
+
+  // Score
+  if (correct) scoreCorrect++; else scoreWrong++;
+  updateScore();
+
+  // Check tab complete
+  checkTabComplete(idx);
+}
+
+// ── SCORE ──
+function updateScore() {
+  var done = scoreCorrect + scoreWrong;
+  document.getElementById('chipCorrect').textContent = '✓ ' + scoreCorrect;
+  document.getElementById('chipWrong').textContent   = '✗ ' + scoreWrong;
+  document.getElementById('chipTotal').textContent   = done + '/' + totalCards;
+  var pct = (done / totalCards) * 100;
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = done + ' / ' + totalCards;
+}
+
+// ── TAB COMPLETION ──
+function checkTabComplete(idx) {
+  for (var t = 0; t < tabRanges.length; t++) {
+    var range = tabRanges[t];
+    if (idx < range[0] || idx > range[1]) continue;
+    var allDone = true;
+    for (var i = range[0]; i <= range[1]; i++) {
+      if (!answered[i]) { allDone = false; break; }
+    }
+    if (allDone) {
+      var doneEl = document.getElementById('done'+t);
+      if (doneEl) doneEl.classList.add('show');
+    }
+  }
+}
+
+// ── RESET ──
+function resetAll() {
+  currentWords = items.map(function(d){
+    return Math.random() < 0.5 ? d.options[0] : d.options[1];
+  });
+  answered = items.map(function(){ return false; });
+  scoreCorrect = 0; scoreWrong = 0;
+
+  for (var i = 0; i < totalCards; i++) {
+    var card = document.getElementById('card'+i);
+    if (!card) continue;
+    card.className = 'pair-card';
+    var wd = document.getElementById('wd'+i);
+    if (wd) { wd.textContent = '??'; wd.classList.remove('revealed'); }
+    var ph = document.getElementById('ph'+i);
+    if (ph) ph.textContent = '';
+    var fb = document.getElementById('fb'+i);
+    if (fb) { fb.innerHTML = ''; fb.className = 'pair-feedback'; }
+    var btns = card.querySelectorAll('.choice-btn');
+    btns.forEach(function(b){ b.disabled = false; b.className = 'choice-btn'; });
+    var d0 = document.getElementById('dot'+i+'-0');
+    var d1 = document.getElementById('dot'+i+'-1');
+    if (d0) d0.className = 'play-dot';
+    if (d1) d1.className = 'play-dot';
+  }
+  for (var t = 0; t < 3; t++) {
+    var doneEl = document.getElementById('done'+t);
+    if (doneEl) doneEl.classList.remove('show');
+  }
+  updateScore();
+}
+
+// ── THEME ──
+function toggleTheme() {
+  var d = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.body.setAttribute('data-theme', d);
+  document.querySelectorAll('.theme-btn').forEach(function(b){
+    b.textContent = d === 'dark' ? '☀️ Light' : '🌙 Dark';
+  });
+  try { localStorage.setItem('edav_theme', d); } catch(e) {}
+}
+
+// ── speak() PLACEHOLDER — overridden by Kokoro module below ──
+function speak(text, idx) {
+  if (window.speechSynthesis) {
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US'; u.rate = 0.85;
+    window.speechSynthesis.speak(u);
+  }
+}
+
+// ── INIT ──
+(function(){
+  try {
+    var saved = localStorage.getItem('edav_theme');
+    if (saved) {
+      document.body.setAttribute('data-theme', saved);
+      document.querySelectorAll('.theme-btn').forEach(function(b){
+        b.textContent = saved === 'dark' ? '☀️ Light' : '🌙 Dark';
+      });
+    }
+  } catch(e) {}
+  updateScore();
+})();
+</script>
+
+<!-- ════════════════════════════════════════════════════
+     KOKORO TTS MODULE — DO NOT MODIFY
+════════════════════════════════════════════════════ -->
+<script type="module">
+import { KokoroTTS } from 'https://esm.run/kokoro-js@1.2.1';
+
+const banner  = document.getElementById('tts-banner');
+const spinner = document.getElementById('tts-spinner');
+const okIcon  = document.getElementById('tts-ok');
+const msg     = document.getElementById('tts-msg');
+
+let tts = null;
+
+async function initKokoro() {
+  try {
+    tts = await KokoroTTS.from_pretrained('onnx-community/Kokoro-82M-v1.0', {
+      dtype: 'fp32',
+      device: 'wasm',
+    });
+    spinner.style.display = 'none';
+    okIcon.style.display  = 'block';
+    msg.textContent = '🔊 Voice ready! Press ▶ PLAY on any card.';
+    setTimeout(() => banner.classList.add('hidden'), 2000);
+
+    // Enable all play buttons
+    document.querySelectorAll('.btn-play').forEach(b => b.disabled = false);
+
+    // Override speak()
+    window.speak = async function(text, idx) {
+      document.querySelectorAll('.btn-play').forEach(b => b.disabled = true);
+      async function playAudio(speed) {
+        const audio = await tts.generate(text, { voice: 'af_heart', speed });
+        return new Promise(resolve => {
+          audio.play();
+          audio.onended = resolve;
+        });
+      }
+      function setDot(idx, dotN, state) {
+        var el = document.getElementById('dot'+idx+'-'+dotN);
+        if (el) el.className = 'play-dot ' + state;
+      }
+      setDot(idx, 0, 'active');
+      await playAudio(1.0);
+      setDot(idx, 0, 'done');
+      await new Promise(r => setTimeout(r, 700));
+      setDot(idx, 1, 'active');
+      await playAudio(0.75);
+      setDot(idx, 1, 'done');
+      document.querySelectorAll('.btn-play').forEach(b => b.disabled = false);
+    };
+
+  } catch(e) {
+    msg.textContent = '⚠️ Voice model unavailable — using browser fallback.';
+    spinner.style.display = 'none';
+    document.querySelectorAll('.btn-play').forEach(b => b.disabled = false);
+  }
+}
+
+// Disable play buttons until loaded
+document.querySelectorAll('.btn-play').forEach(b => b.disabled = true);
+initKokoro();
+</script>
+</body>
+</html>

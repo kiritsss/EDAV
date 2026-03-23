@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Unit 1 — Formative Quiz · EDAV A1</title>
+<style>
+/* ── VARIABLES ── */
+:root {
+  --bg:      #f5f3ee; --bg2:   #eceae3; --bg3:   #e0ddd5;
+  --card:    #ffffff; --text:  #1c1a14; --text2: #5f5e5a;
+  --border:  #d3d1c7;
+  --purple:  #534ab7; --purpleL:#eeedfe; --purpleM:#7f77dd;
+  --teal:    #0f6e56; --tealL:  #e1f5ee; --tealM:  #1d9e75;
+  --amber:   #854f0b; --amberL: #faeeda; --amberM: #ba7517;
+  --coral:   #993c1d; --coralL: #faece7;
+  --green:   #3b6d11; --greenL: #eaf3de;
+  --red:     #a32d2d; --redL:   #fcebeb;
+  --shadow:  0 2px 12px rgba(0,0,0,.08);
+  --radius:  12px;
+}
+[data-theme="dark"] {
+  --bg:     #1c1a14; --bg2:   #26241c; --bg3:   #2e2c22;
+  --card:   #2e2c22; --text:  #e8e6de; --text2: #9c9a92;
+  --border: #3d3d37;
+  --purple: #7f77dd; --purpleL:#26215c; --purpleM:#534ab7;
+  --teal:   #1d9e75; --tealL:  #04342c; --tealM:  #0f6e56;
+  --amber:  #ef9f27; --amberL: #412402; --amberM: #854f0b;
+  --coral:  #d85a30; --coralL: #4a1b0c;
+  --green:  #639922; --greenL: #173404;
+  --red:    #e24b4a; --redL:   #501313;
+  --shadow: 0 2px 12px rgba(0,0,0,.3);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;
+  -webkit-user-select:none;user-select:none;
+  transition:background .25s,color .25s;
+}
+button{cursor:pointer;border:none;font-family:inherit;transition:all .2s}
+
+/* ── SCREENS ── */
+.screen{display:none}
+.screen.active{display:flex;flex-direction:column;min-height:100vh}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:sticky;top:0;z-index:10;
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:10px 20px;display:flex;align-items:center;gap:10px;
+  box-shadow:var(--shadow);
+}
+.topbar-logo{font-size:1.3rem}
+.topbar-title{font-size:.95rem;font-weight:700;color:var(--purple);flex:1}
+.topbar-sub{font-size:.72rem;color:var(--text2)}
+.theme-btn{
+  background:var(--bg2);color:var(--text2);
+  border:1px solid var(--border);border-radius:20px;
+  padding:4px 12px;font-size:.76rem;
+}
+
+/* ── PROGRESS ── */
+.prog-wrap{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:7px 20px;display:flex;align-items:center;gap:10px;
+}
+.prog-track{flex:1;height:8px;background:var(--bg3);border-radius:8px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--teal));
+  border-radius:8px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.prog-txt{font-size:.75rem;color:var(--text2);white-space:nowrap}
+.score-badge{
+  font-size:.75rem;font-weight:600;padding:2px 10px;
+  border-radius:20px;background:var(--purpleL);color:var(--purple);
+  white-space:nowrap;
+}
+
+/* ── MAIN ── */
+.main{flex:1;padding:16px;max-width:660px;margin:0 auto;width:100%}
+
+/* ── WELCOME ── */
+.welcome-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px 24px;
+  text-align:center;box-shadow:var(--shadow);
+}
+.welcome-emoji{font-size:3rem;margin-bottom:10px}
+.welcome-title{font-size:1.5rem;font-weight:700;color:var(--purple);margin-bottom:4px}
+.welcome-sub{font-size:.9rem;color:var(--text2);margin-bottom:20px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.info-chip{
+  background:var(--purpleL);border:1px solid var(--purpleM);
+  border-radius:8px;padding:8px 10px;font-size:.8rem;color:var(--purple);
+}
+.info-chip strong{display:block;font-size:1rem;font-weight:700}
+.name-in{
+  width:100%;padding:11px 14px;margin-bottom:14px;
+  border:2px solid var(--border);border-radius:var(--radius);
+  background:var(--bg2);color:var(--text);font-size:.95rem;outline:none;
+}
+.name-in:focus{border-color:var(--purple)}
+.start-btn{
+  width:100%;padding:13px;background:var(--purple);color:#fff;
+  border-radius:var(--radius);font-size:1rem;font-weight:700;
+}
+.start-btn:hover{background:var(--purpleM);transform:translateY(-1px)}
+.start-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ── SECTION CARD ── */
+.sec-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:14px 16px;
+  margin-bottom:14px;box-shadow:var(--shadow);
+}
+.sec-hdr{
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  padding-bottom:10px;border-bottom:1px solid var(--border);
+}
+.sec-tag{
+  font-size:.68rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;padding:3px 9px;border-radius:20px;
+}
+.sec-name{font-size:.95rem;font-weight:700;flex:1}
+.sec-pts{font-size:.75rem;color:var(--text2)}
+
+/* ── QUESTION ── */
+.q-wrap{margin-bottom:14px}
+.q-num{font-size:.7rem;color:var(--text2);margin-bottom:3px}
+.q-text{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.4}
+.q-ctx{
+  font-size:.82rem;color:var(--text2);
+  background:var(--bg2);border-left:3px solid var(--border);
+  padding:6px 10px;border-radius:0 6px 6px 0;
+  margin-bottom:10px;line-height:1.5;
+}
+.q-ctx b{color:var(--text)}
+
+/* options */
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 12px;background:var(--bg2);
+  border:2px solid var(--border);border-radius:9px;
+  font-size:.88rem;color:var(--text);text-align:left;
+}
+.opt:hover:not(:disabled){border-color:var(--purple);background:var(--purpleL);color:var(--purple)}
+.opt:disabled{cursor:not-allowed}
+.opt.correct{background:var(--greenL);border-color:var(--green);color:var(--green);animation:pulse .35s}
+.opt.wrong  {background:var(--redL);  border-color:var(--red);  color:var(--red);  animation:shake .35s}
+.opt-ltr{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  background:var(--bg3);display:flex;align-items:center;
+  justify-content:center;font-size:.72rem;font-weight:700;color:var(--text2);
+}
+.opt.correct .opt-ltr{background:var(--green);color:#fff}
+.opt.wrong   .opt-ltr{background:var(--red);  color:#fff}
+
+/* fill blank */
+.fill-row{display:flex;gap:8px;flex-wrap:wrap}
+.fill-in{
+  flex:1;min-width:150px;padding:9px 12px;
+  border:2px solid var(--border);border-radius:9px;
+  background:var(--bg2);color:var(--text);font-size:.9rem;outline:none;
+}
+.fill-in:focus{border-color:var(--purple)}
+.fill-in.correct{border-color:var(--green);background:var(--greenL);color:var(--green)}
+.fill-in.wrong  {border-color:var(--red);  background:var(--redL);  color:var(--red)}
+.check-btn{
+  padding:9px 18px;background:var(--purple);color:#fff;
+  border-radius:9px;font-size:.88rem;font-weight:600;
+}
+.check-btn:hover{background:var(--purpleM)}
+.check-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* feedback */
+.fb{
+  margin-top:8px;padding:8px 10px;border-radius:8px;
+  font-size:.82rem;line-height:1.5;display:none;
+}
+.fb.show{display:block}
+.fb.correct{background:var(--greenL);color:var(--green);border:1px solid var(--green)}
+.fb.wrong  {background:var(--redL);  color:var(--red);  border:1px solid var(--red)}
+
+/* divider */
+.q-divider{border:none;border-top:1px dashed var(--border);margin:12px 0}
+
+/* next section btn */
+.next-sec-btn{
+  width:100%;padding:12px;background:var(--purple);color:#fff;
+  border-radius:var(--radius);font-size:.95rem;font-weight:700;
+  margin-top:8px;display:none;
+}
+.next-sec-btn.show{display:block}
+.next-sec-btn:hover{background:var(--purpleM)}
+
+/* ── RESULTS ── */
+.result-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px 24px;
+  text-align:center;box-shadow:var(--shadow);
+}
+.trophy{font-size:4rem;margin-bottom:10px;animation:pop .6s cubic-bezier(.4,0,.2,1)}
+.result-title{font-size:1.4rem;font-weight:700;color:var(--purple);margin-bottom:4px}
+.result-sub{font-size:.9rem;color:var(--text2);margin-bottom:18px}
+
+/* grade ring */
+.ring-wrap{width:100px;height:100px;margin:0 auto 16px;position:relative}
+.ring-svg{transform:rotate(-90deg)}
+.ring-bg  {fill:none;stroke:var(--bg3);stroke-width:10}
+.ring-fill{fill:none;stroke:var(--purple);stroke-width:10;stroke-linecap:round;
+  stroke-dasharray:283;stroke-dashoffset:283;transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1)}
+.ring-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  text-align:center;
+}
+.ring-pct{font-size:1.3rem;font-weight:700;color:var(--purple)}
+.ring-lbl{font-size:.65rem;color:var(--text2)}
+
+/* level badge */
+.level-badge{
+  display:inline-block;padding:5px 18px;border-radius:20px;
+  font-size:.9rem;font-weight:700;margin-bottom:14px;
+}
+
+/* criterion breakdown */
+.breakdown{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin-bottom:16px;text-align:left;
+}
+.bd-item{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;padding:9px 11px;
+}
+.bd-label{font-size:.72rem;color:var(--text2);margin-bottom:3px}
+.bd-val{font-size:1rem;font-weight:700;color:var(--purple)}
+.bd-bar{
+  height:5px;background:var(--bg3);border-radius:5px;
+  margin-top:4px;overflow:hidden;
+}
+.bd-bar-fill{height:100%;background:var(--purple);border-radius:5px;transition:width 1s .3s}
+
+/* can-do box */
+.cando-box{
+  background:var(--purpleL);border:1px solid var(--purpleM);
+  border-radius:10px;padding:12px 14px;margin-bottom:14px;text-align:left;
+}
+.cando-box strong{display:block;font-size:.82rem;color:var(--purple);margin-bottom:6px}
+.cando-box p{font-size:.8rem;color:var(--purpleM);line-height:1.5}
+
+/* print result */
+.print-btn{
+  padding:10px 20px;background:var(--bg2);color:var(--text);
+  border:2px solid var(--border);border-radius:var(--radius);
+  font-size:.88rem;font-weight:600;margin-right:8px;
+}
+.print-btn:hover{background:var(--bg3)}
+.restart-btn{
+  padding:10px 20px;background:var(--purple);color:#fff;
+  border-radius:var(--radius);font-size:.88rem;font-weight:600;
+}
+.restart-btn:hover{background:var(--purpleM)}
+
+/* ── ANIMATIONS ── */
+@keyframes pulse{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:480px){
+  .main{padding:12px}
+  .info-grid{grid-template-columns:1fr}
+  .breakdown{grid-template-columns:1fr}
+  .q-text{font-size:.88rem}
+}
+
+@media print {
+  .topbar,.prog-wrap,.print-btn,.restart-btn,.theme-btn{display:none!important}
+  body{background:#fff;color:#000}
+  .result-card{box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body data-theme="light"
+  oncontextmenu="return false"
+  oncopy="return false"
+  onpaste="return false"
+  oncut="return false">
+
+<!-- ════════════════════ WELCOME ════════════════════ -->
+<div class="screen active" id="scrWelcome">
+  <div class="topbar">
+    <div class="topbar-logo">📋</div>
+    <div style="flex:1">
+      <div class="topbar-title">Unit 1 — Formative Quiz</div>
+      <div class="topbar-sub">EDAV · Evaluacion formativa · Sem. 7</div>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
+  </div>
+  <div class="main" style="display:flex;align-items:center;justify-content:center;padding-top:32px">
+    <div class="welcome-card">
+      <div class="welcome-emoji">📋</div>
+      <div class="welcome-title">Unit 1 Formative Quiz</div>
+      <div class="welcome-sub">Identity &amp; Family · CEFR A1<br>20 questions · 4 sections · ~15 minutes</div>
+      <div class="info-grid">
+        <div class="info-chip"><strong>A</strong>Vocabulary A1</div>
+        <div class="info-chip"><strong>B</strong>Verb TO BE</div>
+        <div class="info-chip"><strong>C</strong>Reading Comprehension</div>
+        <div class="info-chip"><strong>D</strong>Mixed Review</div>
+      </div>
+      <input class="name-in" id="studentName" type="text"
+        placeholder="Type your name here..." maxlength="30"
+        oninput="checkReady()" autocomplete="off">
+      <button class="start-btn" id="startBtn" onclick="startQuiz()" disabled>
+        Start Quiz ▶
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ QUIZ ════════════════════ -->
+<div class="screen" id="scrQuiz">
+  <div class="topbar">
+    <div class="topbar-logo">📋</div>
+    <div style="flex:1">
+      <div class="topbar-title" id="quizTopTitle">Section A</div>
+      <div class="topbar-sub" id="quizTopSub">Vocabulary A1</div>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <span class="prog-txt" id="progTxt">0/20</span>
+    <span class="score-badge" id="scoreBadge">Score: 0</span>
+  </div>
+  <div class="main" id="quizMain"></div>
+</div>
+
+<!-- ════════════════════ RESULTS ════════════════════ -->
+<div class="screen" id="scrResults">
+  <div class="topbar">
+    <div class="topbar-logo">🏆</div>
+    <div style="flex:1">
+      <div class="topbar-title">Quiz Results</div>
+      <div class="topbar-sub" id="resultSub">Unit 1 — Formative Quiz</div>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+  </div>
+  <div class="main" style="padding-top:20px">
+    <div class="result-card">
+      <div class="trophy" id="trophyEl">🏆</div>
+      <div class="result-title" id="resultTitle">Excellent!</div>
+      <div class="result-sub" id="resultSubText"></div>
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 100 100" width="100" height="100">
+          <circle class="ring-bg"   cx="50" cy="50" r="45"/>
+          <circle class="ring-fill" id="ringFill" cx="50" cy="50" r="45"/>
+        </svg>
+        <div class="ring-text">
+          <div class="ring-pct" id="ringPct">0%</div>
+          <div class="ring-lbl">Score</div>
+        </div>
+      </div>
+      <div class="level-badge" id="levelBadge">Excelente</div>
+      <div class="breakdown" id="breakdownEl"></div>
+      <div class="cando-box" id="candoEl"></div>
+      <div id="resultStats" style="font-size:.8rem;color:var(--text2);margin-bottom:16px"></div>
+      <div>
+        <button class="print-btn" onclick="window.print()">🖨 Print Results</button>
+        <button class="restart-btn" onclick="restartQuiz()">🔄 Try Again</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  CONTENT — Formative Quiz U1 · EDAV A1
+//  Aligned to rubric criteria C1 (vocab) C2 (TO BE) C4 (reading) + mixed
+// ═══════════════════════════════════════════════════════════
+const SECTIONS = [
+  {
+    id: 'A',
+    name: 'Vocabulary A1',
+    criterion: 'C1',
+    color: 'purple',
+    questions: [
+      { type:'mc',
+        q:'What does "name" mean in Spanish?',
+        opts:['Nombre','Edad','Ciudad','Idioma'],
+        answer:'Nombre',
+        fb_c:'Correct! NAME = Nombre. "My name is Ana."',
+        fb_w:'Not quite. NAME = Nombre. "My name is ___."' },
+      { type:'mc',
+        q:'Which word describes someone who makes you laugh?',
+        opts:['Funny','Tall','Young','Kind'],
+        answer:'Funny',
+        fb_c:'Yes! FUNNY = Gracioso/a. "He is very funny!"',
+        fb_w:'FUNNY = Gracioso/a — the word that describes someone who makes you laugh.' },
+      { type:'mc',
+        q:'What does "family" mean?',
+        opts:['Familia','Amigo','Pais','Idioma'],
+        answer:'Familia',
+        fb_c:'Correct! FAMILY = Familia. "I love my family."',
+        fb_w:'FAMILY = Familia. Think of the Spanish word — very similar!' },
+      { type:'mc',
+        q:'Which word means "hermano" in English?',
+        opts:['Brother','Sister','Son','Cousin'],
+        answer:'Brother',
+        fb_c:'Yes! BROTHER = Hermano. SISTER = Hermana.',
+        fb_w:'BROTHER = Hermano. Not sister (hermana), son (hijo), or cousin (primo).' },
+      { type:'fill',
+        q:'Type the English word for "amable / simpático":',
+        answer:'kind',
+        fb_c:'Correct! KIND = Amable. "My teacher is very kind."',
+        fb_w:'The answer is KIND. KIND = Amable / Simpático.' },
+      { type:'mc',
+        q:'What does "country" mean?',
+        opts:['Pais','Ciudad','Trabajo','Escuela'],
+        answer:'Pais',
+        fb_c:'Right! COUNTRY = País. "My country is Mexico."',
+        fb_w:'COUNTRY = País. "What country are you from?"' },
+    ]
+  },
+  {
+    id: 'B',
+    name: 'Verb TO BE',
+    criterion: 'C2',
+    color: 'teal',
+    questions: [
+      { type:'mc',
+        q:'Choose the correct form: "___ am a student."',
+        opts:['I','He','She','They'],
+        answer:'I',
+        fb_c:'Correct! Only I goes with AM. I AM a student.',
+        fb_w:'Remember: I AM — He/She/It IS — You/We/They ARE.' },
+      { type:'mc',
+        q:'Complete: "She ___ my teacher. She ___ very kind."',
+        opts:['is / is','are / is','am / is','is / are'],
+        answer:'is / is',
+        fb_c:'Perfect! SHE IS — third person singular always uses IS.',
+        fb_w:'SHE = third person singular → IS. "She IS my teacher. She IS kind."' },
+      { type:'fill',
+        q:'Write the negative form:\n"They ___ from Spain." (they + not)',
+        answer:"aren't",
+        fb_c:"Correct! THEY + NOT = AREN'T. They aren't from Spain.",
+        fb_w:"THEY + ARE + NOT = AREN'T. They aren't from Spain." },
+      { type:'mc',
+        q:'Which question is correct?',
+        opts:["Are you a student?","Is you a student?","Am you a student?","Do you a student?"],
+        answer:"Are you a student?",
+        fb_c:'Right! With YOU we always use ARE. "Are you a student?"',
+        fb_w:'With YOU → ARE. "ARE you a student?" — never "Is you" or "Am you".' },
+      { type:'mc',
+        q:'Make it a question: "He is tall." →',
+        opts:["Is he tall?","Are he tall?","He is tall?","Does he tall?"],
+        answer:"Is he tall?",
+        fb_c:'Correct! To make a question: put IS before the subject. IS HE tall?',
+        fb_w:'Question with HE: put IS first. "IS he tall?" — invert subject and verb.' },
+      { type:'mc',
+        q:'Choose the correct sentence:',
+        opts:[
+          "My parents are teachers.",
+          "My parents is teachers.",
+          "My parents am teachers.",
+          "My parents be teachers."
+        ],
+        answer:"My parents are teachers.",
+        fb_c:'Yes! PARENTS = plural → ARE. "My parents ARE teachers."',
+        fb_w:'PARENTS is plural → use ARE. "My parents ARE teachers."' },
+    ]
+  },
+  {
+    id: 'C',
+    name: 'Reading Comprehension',
+    criterion: 'C4',
+    color: 'amber',
+    questions: [
+      { type:'mc',
+        q:'Read and answer:\n"My name is Carlos. I am 14 years old. I am from Mexico. My city is Coatzacoalcos."\n\nHow old is Carlos?',
+        ctx: true,
+        opts:['14','13','15','12'],
+        answer:'14',
+        fb_c:'Correct! The text says "I am 14 years old."',
+        fb_w:'Re-read: "I am 14 years old." Carlos is 14.' },
+      { type:'mc',
+        q:'Read and answer:\n"My sister\'s name is Sofia. She is young and funny. She is 11 years old."\n\nWhat is the sister like?',
+        ctx:true,
+        opts:['Young and funny','Tall and kind','Old and nice','Short and shy'],
+        answer:'Young and funny',
+        fb_c:'Right! "She is young and funny." The text describes her personality.',
+        fb_w:'The text says "She is young and funny." Those are her two adjectives.' },
+      { type:'mc',
+        q:'Read and answer:\n"My father is tall. He is a teacher. His name is Roberto."\n\nWhat does Roberto do?',
+        ctx:true,
+        opts:['He is a teacher.','He is a student.','He is a doctor.','He is a brother.'],
+        answer:'He is a teacher.',
+        fb_c:'Correct! "He is a teacher." — that is his job.',
+        fb_w:'Re-read: "He is a teacher." = Roberto is a teacher.' },
+      { type:'mc',
+        q:'Read and answer:\n"I have one brother and two sisters. My family is big."\n\nHow many sisters does the person have?',
+        ctx:true,
+        opts:['Two','One','Three','Four'],
+        answer:'Two',
+        fb_c:'Yes! "two sisters" — the number is written in the text.',
+        fb_w:'The text says "two sisters." Two = 2.' },
+    ]
+  },
+  {
+    id: 'D',
+    name: 'Mixed Review',
+    criterion: 'C1+C2',
+    color: 'coral',
+    questions: [
+      { type:'mc',
+        q:'Choose the correct complete sentence:',
+        opts:[
+          "My brother is funny and kind.",
+          "My brother are funny and kind.",
+          "My brother am funny and kind.",
+          "My brother be funny and kind."
+        ],
+        answer:"My brother is funny and kind.",
+        fb_c:'Perfect! MY BROTHER = third person singular → IS. + adjectives funny and kind.',
+        fb_w:'BROTHER = singular → IS. "My brother IS funny and kind."' },
+      { type:'fill',
+        q:'Complete with the correct possessive adjective:\n"This is ___ mother. ___ name is Maria." (= my / her)',
+        answer:'my / her',
+        fb_c:'Correct! MY mother (I speak) — HER name (she = my mother).',
+        fb_w:'MY mother (I am the speaker). HER name (her = the mother). MY / HER.' },
+      { type:'mc',
+        q:'Which sentence uses possessive \'s correctly?',
+        opts:[
+          "My sister's name is Laura.",
+          "My sisters name is Laura.",
+          "My sister name is Laura.",
+          "My name sister is Laura."
+        ],
+        answer:"My sister's name is Laura.",
+        fb_c:"Correct! SISTER'S = apostrophe + s shows possession. The name belongs to the sister.",
+        fb_w:"We add apostrophe + s ('s) to show possession. SISTER'S name." },
+      { type:'mc',
+        q:'What is the correct question?',
+        opts:[
+          "What is your name?",
+          "What your name is?",
+          "What is name your?",
+          "Your name what is?"
+        ],
+        answer:"What is your name?",
+        fb_c:'Yes! "WHAT IS your name?" — question word + IS + your + name.',
+        fb_w:'The correct order is: WHAT IS your name? Question word first, then the verb.' },
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+const state = {
+  name:       '',
+  secIdx:     0,
+  answered:   [],   // bool per question
+  scores:     [],   // points per question (0 or 1)
+  secScores:  [0,0,0,0],  // correct per section
+  theme:      'light',
+};
+
+const TOTAL_Q = SECTIONS.reduce((s, sec) => s + sec.questions.length, 0);
+const SEC_COLORS = {
+  purple: { tag:'background:var(--purpleL);color:var(--purple)', bar:'var(--purple)' },
+  teal:   { tag:'background:var(--tealL);color:var(--teal)',     bar:'var(--teal)' },
+  amber:  { tag:'background:var(--amberL);color:var(--amber)',   bar:'var(--amber)' },
+  coral:  { tag:'background:var(--coralL);color:var(--coral)',   bar:'var(--coral)' },
+};
+
+// ═══════════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════════
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function toggleTheme() {
+  state.theme = state.theme === 'light' ? 'dark' : 'light';
+  document.body.setAttribute('data-theme', state.theme);
+  document.querySelectorAll('.theme-btn').forEach(b => {
+    b.textContent = state.theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+  });
+  try { localStorage.setItem('edav_theme', state.theme); } catch(e) {}
+}
+
+function getGlobalQIdx(secIdx, qIdxInSec) {
+  let base = 0;
+  for (let i = 0; i < secIdx; i++) base += SECTIONS[i].questions.length;
+  return base + qIdxInSec;
+}
+
+function updateProgress() {
+  const done = state.answered.filter(Boolean).length;
+  const pct  = (done / TOTAL_Q) * 100;
+  const el = document.getElementById('progFill');
+  if (el) el.style.width = pct + '%';
+  const pt = document.getElementById('progTxt');
+  if (pt) pt.textContent = done + '/' + TOTAL_Q;
+  const sc = state.scores.reduce((a, b) => a + b, 0);
+  const sb = document.getElementById('scoreBadge');
+  if (sb) sb.textContent = 'Score: ' + sc + '/' + done;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  START
+// ═══════════════════════════════════════════════════════════
+function checkReady() {
+  const v = document.getElementById('studentName').value.trim();
+  document.getElementById('startBtn').disabled = v.length < 2;
+}
+
+function startQuiz() {
+  state.name     = document.getElementById('studentName').value.trim() || 'Student';
+  state.secIdx   = 0;
+  state.answered = Array(TOTAL_Q).fill(false);
+  state.scores   = Array(TOTAL_Q).fill(0);
+  state.secScores= [0,0,0,0];
+  showScreen('scrQuiz');
+  renderSection(0);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER SECTION
+// ═══════════════════════════════════════════════════════════
+function renderSection(secIdx) {
+  const sec = SECTIONS[secIdx];
+  const col = SEC_COLORS[sec.color];
+
+  document.getElementById('quizTopTitle').textContent = 'Section ' + sec.id + ' — ' + sec.name;
+  document.getElementById('quizTopSub').textContent   = sec.criterion + ' · ' + sec.questions.length + ' questions';
+
+  // Build shuffled questions for this section
+  const shuffledQs = sec.questions.map((q, qi) => {
+    const gIdx = getGlobalQIdx(secIdx, qi);
+    const shuffledOpts = q.opts ? shuffle(q.opts) : null;
+    return { q, qi, gIdx, shuffledOpts };
+  });
+
+  let html = `<div class="sec-card">
+    <div class="sec-hdr">
+      <span class="sec-tag" style="${col.tag}">Section ${sec.id}</span>
+      <span class="sec-name">${sec.name}</span>
+      <span class="sec-pts">${sec.questions.length} questions</span>
+    </div>`;
+
+  shuffledQs.forEach(({ q, qi, gIdx, shuffledOpts }, i) => {
+    const letters = ['A','B','C','D'];
+    const isLast  = i === shuffledQs.length - 1;
+
+    html += `<div class="q-wrap" id="qwrap${gIdx}">
+      <div class="q-num">Question ${i + 1} of ${sec.questions.length}</div>
+      <div class="q-text">${q.q.replace(/\n/g, '<br>')}</div>`;
+
+    if (q.ctx) {
+      html += `<div class="q-ctx">${q.q.split('\n')[1] ? q.q.split('\n')[1] : ''}</div>`;
+    }
+
+    if (q.type === 'mc') {
+      html += `<div class="opts" id="opts${gIdx}">`;
+      shuffledOpts.forEach((opt, oi) => {
+        const safeOpt = opt.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        const safeAns = q.answer.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        html += `<button class="opt" onclick="pickOpt(this,${gIdx},'${safeOpt}','${safeAns}',${secIdx})">
+          <span class="opt-ltr">${letters[oi]}</span>${opt}
+        </button>`;
+      });
+      html += `</div>`;
+    } else {
+      const safeAns = (q.answer || '').replace(/'/g, "\\'");
+      html += `<div class="fill-row">
+        <input class="fill-in" id="fi${gIdx}" type="text"
+          placeholder="Type your answer..." autocomplete="off"
+          onkeydown="if(event.key==='Enter')checkFill(${gIdx},'${safeAns}',${secIdx})">
+        <button class="check-btn" id="cb${gIdx}" onclick="checkFill(${gIdx},'${safeAns}',${secIdx})">
+          Check ✓
+        </button>
+      </div>`;
+    }
+
+    html += `<div class="fb" id="fb${gIdx}"></div>`;
+    if (!isLast) html += `<hr class="q-divider">`;
+    html += `</div>`;
+  });
+
+  const isLastSec = secIdx >= SECTIONS.length - 1;
+  html += `<button class="next-sec-btn" id="nextSecBtn" onclick="${isLastSec ? 'showResults()' : 'nextSection()'}">
+    ${isLastSec ? 'See My Results 🏆' : 'Next Section ▶'}
+  </button></div>`;
+
+  document.getElementById('quizMain').innerHTML = html;
+  updateProgress();
+
+  // Track how many answered in this section
+  window._secAnswered = 0;
+  window._secTotal    = sec.questions.length;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ANSWER HANDLERS
+// ═══════════════════════════════════════════════════════════
+function pickOpt(btn, gIdx, chosen, answer, secIdx) {
+  if (state.answered[gIdx]) return;
+  state.answered[gIdx] = true;
+  const correct = chosen === answer;
+  if (correct) { state.scores[gIdx] = 1; state.secScores[secIdx]++; }
+
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  document.querySelectorAll(`#opts${gIdx} .opt`).forEach(b => {
+    b.disabled = true;
+    if (b.textContent.trim().slice(1).trim() === answer) b.classList.add('correct');
+  });
+
+  showFb(gIdx, correct, SECTIONS[secIdx].questions.find(
+    (q, i) => getGlobalQIdx(secIdx, i) === gIdx
+  ));
+  checkSecDone();
+  updateProgress();
+}
+
+function checkFill(gIdx, answer, secIdx) {
+  if (state.answered[gIdx]) return;
+  const inp = document.getElementById('fi' + gIdx);
+  const cb  = document.getElementById('cb' + gIdx);
+  if (!inp) return;
+  const val = inp.value.trim().toLowerCase();
+  // Accept all tokens
+  const tokens = answer.toLowerCase().replace(/\s*\/\s*/g, ' / ').split(/\s*\/\s*/);
+  const correct = tokens.every(tok => val.includes(tok));
+  state.answered[gIdx] = true;
+  if (correct) { state.scores[gIdx] = 1; state.secScores[secIdx]++; }
+
+  inp.classList.add(correct ? 'correct' : 'wrong');
+  if (cb) cb.disabled = true;
+  inp.disabled = true;
+
+  showFb(gIdx, correct, SECTIONS[secIdx].questions.find(
+    (q, i) => getGlobalQIdx(secIdx, i) === gIdx
+  ));
+  checkSecDone();
+  updateProgress();
+}
+
+function showFb(gIdx, correct, q) {
+  const fb = document.getElementById('fb' + gIdx);
+  if (!fb || !q) return;
+  fb.textContent  = correct ? q.fb_c : q.fb_w;
+  fb.className    = 'fb show ' + (correct ? 'correct' : 'wrong');
+}
+
+function checkSecDone() {
+  window._secAnswered++;
+  if (window._secAnswered >= window._secTotal) {
+    const btn = document.getElementById('nextSecBtn');
+    if (btn) btn.classList.add('show');
+  }
+}
+
+function nextSection() {
+  state.secIdx++;
+  renderSection(state.secIdx);
+  window.scrollTo(0, 0);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RESULTS
+// ═══════════════════════════════════════════════════════════
+function showResults() {
+  const total   = state.scores.reduce((a, b) => a + b, 0);
+  const pct     = Math.round((total / TOTAL_Q) * 100);
+  const maxCirc = 2 * Math.PI * 45; // ~283
+
+  // Level
+  let trophy, levelTxt, levelColor, levelBg, canDoMsg;
+  if (pct >= 90) {
+    trophy = '🏆'; levelTxt = 'Excelente!';
+    levelColor = '#3b6d11'; levelBg = '#eaf3de';
+    canDoMsg = 'You mastered Unit 1! You are ready to start Unit 2.';
+  } else if (pct >= 70) {
+    trophy = '🥇'; levelTxt = 'Satisfactorio';
+    levelColor = '#0f6e56'; levelBg = '#e1f5ee';
+    canDoMsg = 'Good work! Review your wrong answers and move on to Unit 2.';
+  } else if (pct >= 50) {
+    trophy = '🥈'; levelTxt = 'En Desarrollo';
+    levelColor = '#854f0b'; levelBg = '#faeeda';
+    canDoMsg = 'Keep going! Replay OA1 rounds 1–2 and review the infographic before Unit 2.';
+  } else {
+    trophy = '🔁'; levelTxt = 'Inicial — Necesita apoyo';
+    levelColor = '#993c1d'; levelBg = '#faece7';
+    canDoMsg = 'Ask your teacher for help. Review the TO BE structure and vocabulary with the infographic.';
+  }
+
+  showScreen('scrResults');
+  document.getElementById('resultSub').textContent   = state.name + ' · Unit 1 Formative Quiz';
+  document.getElementById('trophyEl').textContent    = trophy;
+  document.getElementById('resultTitle').textContent = levelTxt;
+  document.getElementById('resultSubText').textContent = `${total} / ${TOTAL_Q} correct · ${pct}%`;
+  document.getElementById('ringPct').textContent     = pct + '%';
+  document.getElementById('resultStats').textContent =
+    `Student: ${state.name} · Score: ${total}/${TOTAL_Q} · ${pct}%`;
+
+  // Animate ring
+  const offset = maxCirc - (pct / 100) * maxCirc;
+  setTimeout(() => {
+    const ring = document.getElementById('ringFill');
+    if (ring) ring.style.strokeDashoffset = offset;
+  }, 200);
+
+  // Level badge
+  const badge = document.getElementById('levelBadge');
+  badge.textContent = levelTxt;
+  badge.style.cssText = `background:${levelBg};color:${levelColor};border:2px solid ${levelColor}`;
+
+  // Breakdown
+  const secLabels = ['A — Vocabulary','B — Verb TO BE','C — Reading','D — Mixed'];
+  const secMax    = SECTIONS.map(s => s.questions.length);
+  let bdHtml = '';
+  state.secScores.forEach((sc, i) => {
+    const sp = Math.round((sc / secMax[i]) * 100);
+    bdHtml += `<div class="bd-item">
+      <div class="bd-label">Section ${secLabels[i]}</div>
+      <div class="bd-val">${sc}/${secMax[i]} <span style="font-size:.75rem;font-weight:400;color:var(--text2)">(${sp}%)</span></div>
+      <div class="bd-bar"><div class="bd-bar-fill" style="width:${sp}%"></div></div>
+    </div>`;
+  });
+  document.getElementById('breakdownEl').innerHTML = bdHtml;
+
+  // Can-do
+  document.getElementById('candoEl').innerHTML =
+    `<strong>Can-do statement (MCER A1):</strong><p>${canDoMsg}</p>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RESTART
+// ═══════════════════════════════════════════════════════════
+function restartQuiz() {
+  document.getElementById('studentName').value = state.name;
+  showScreen('scrWelcome');
+  // reset ring
+  const ring = document.getElementById('ringFill');
+  if (ring) ring.style.strokeDashoffset = '283';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+(function() {
+  try {
+    const saved = localStorage.getItem('edav_theme');
+    if (saved) {
+      state.theme = saved;
+      document.body.setAttribute('data-theme', saved);
+      document.querySelectorAll('.theme-btn').forEach(b => {
+        b.textContent = saved === 'dark' ? '☀️ Light' : '🌙 Dark';
+      });
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

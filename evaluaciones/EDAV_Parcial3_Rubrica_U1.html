@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@font-face { font-family:'Poppins'; font-weight:300; src:url('file:///usr/share/fonts/truetype/google-fonts/Poppins-Light.ttf'); }
+@font-face { font-family:'Poppins'; font-weight:400; src:url('file:///usr/share/fonts/truetype/google-fonts/Poppins-Regular.ttf'); }
+@font-face { font-family:'Poppins'; font-weight:500; src:url('file:///usr/share/fonts/truetype/google-fonts/Poppins-Medium.ttf'); }
+@font-face { font-family:'Poppins'; font-weight:700; src:url('file:///usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf'); }
+
+:root {
+  --bg:       #F4F1EB;
+  --hdr:      #2D2560;
+  --accent:   #7F77DD;
+  --teal:     #0F6E56;
+  --amber:    #854F0B;
+  --coral:    #993C1D;
+  --card:     #FFFFFF;
+  --text:     #1C1A14;
+  --text2:    #5F5E5A;
+  --border:   #D3D1C7;
+  /* nivel colors */
+  --c4-bg:  #EAF3DE; --c4-bdr: #3B6D11; --c4-txt: #274A0B;
+  --c3-bg:  #E1F5EE; --c3-bdr: #0F6E56; --c3-txt: #094D3A;
+  --c2-bg:  #FAEEDA; --c2-bdr: #854F0B; --c2-txt: #5A3407;
+  --c1-bg:  #FAECE7; --c1-bdr: #993C1D; --c1-txt: #6B2912;
+}
+
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+body {
+  max-width: 780px;
+  margin: 0 auto;
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 11px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── HEADER ── */
+.hdr {
+  background: var(--hdr);
+  padding: 20px 28px 16px;
+  position: relative;
+}
+.hdr::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, var(--accent), var(--teal), var(--amber));
+}
+.hdr-tag  { font-size:8.5px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color:var(--accent); margin-bottom:5px; }
+.hdr-title{ font-size:18px; font-weight:700; color:#fff; line-height:1.2; margin-bottom:3px; }
+.hdr-title span { color:var(--accent); }
+.hdr-sub  { font-size:9.5px; color:#B0ACDC; font-weight:300; margin-bottom:10px; }
+.hdr-meta {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:6px;
+  border-top:1px solid rgba(255,255,255,.15); padding-top:10px;
+}
+.meta-item { }
+.meta-label{ font-size:7.5px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; color:#8884C0; }
+.meta-val  { font-size:9px; color:#E0DEED; font-weight:500; margin-top:1px; }
+
+/* ── SECTION TITLE ── */
+.sec {
+  display:flex; align-items:center; gap:8px;
+  padding:12px 20px 6px;
+}
+.sec-bar { width:4px; border-radius:2px; height:22px; flex-shrink:0; }
+.sec-label{ font-size:10.5px; font-weight:700; }
+.sec-desc { font-size:9px; color:var(--text2); margin-left:4px; }
+
+/* ── INTRO INFO ── */
+.intro {
+  margin:0 16px 8px;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.intro-box {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:8px; padding:10px 12px;
+}
+.intro-box-title { font-size:8.5px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--accent); margin-bottom:5px; }
+.intro-box p { font-size:9px; color:var(--text2); line-height:1.5; }
+
+/* ── RUBRICA TABLE ── */
+.rubrica-wrap { padding:0 16px 8px; }
+
+table {
+  width:100%; border-collapse:collapse;
+  font-size:9px;
+}
+
+/* header row */
+.tbl-head th {
+  padding:8px 7px;
+  font-size:8.5px; font-weight:600; text-align:center;
+  border:1px solid var(--border);
+  color:#fff;
+}
+.th-criterio { background:var(--hdr); text-align:left !important; width:18%; }
+.th-peso     { background:#3D3280; width:7%; }
+.th-4        { background:var(--c4-bdr); width:19%; }
+.th-3        { background:var(--c3-bdr); width:19%; }
+.th-2        { background:var(--c2-bdr); width:19%; }
+.th-1        { background:var(--c1-bdr); width:18%; }
+
+/* data rows */
+tbody tr { border-bottom:1px solid var(--border); }
+tbody tr:nth-child(even) td { background:#FAFAF8; }
+
+td {
+  padding:7px;
+  vertical-align:top;
+  border:1px solid var(--border);
+  line-height:1.45;
+}
+.td-criterio {
+  font-weight:600; font-size:9px;
+  color:var(--hdr);
+  background:#EEEDFE !important;
+}
+.td-criterio small {
+  display:block; font-weight:400; font-size:8px;
+  color:var(--text2); margin-top:2px;
+}
+.td-peso {
+  text-align:center; font-weight:700; font-size:10px;
+  color:var(--hdr); background:#F3F2FD !important;
+}
+.td-4 { background:var(--c4-bg) !important; color:var(--c4-txt); }
+.td-3 { background:var(--c3-bg) !important; color:var(--c3-txt); }
+.td-2 { background:var(--c2-bg) !important; color:var(--c2-txt); }
+.td-1 { background:var(--c1-bg) !important; color:var(--c1-txt); }
+
+/* ── SCORE TABLE ── */
+.score-wrap { padding:0 16px 8px; }
+.score-table { width:100%; border-collapse:collapse; font-size:9px; }
+.score-table th {
+  background:var(--hdr); color:#fff;
+  padding:6px 10px; border:1px solid var(--border);
+  font-size:8.5px;
+}
+.score-table td {
+  padding:6px 10px; border:1px solid var(--border);
+  text-align:center;
+}
+.score-table .range-4 { background:var(--c4-bg); color:var(--c4-txt); font-weight:600; }
+.score-table .range-3 { background:var(--c3-bg); color:var(--c3-txt); font-weight:600; }
+.score-table .range-2 { background:var(--c2-bg); color:var(--c2-txt); font-weight:600; }
+.score-table .range-1 { background:var(--c1-bg); color:var(--c1-txt); font-weight:600; }
+
+/* ── STUDENT RECORD ── */
+.record-wrap { padding:0 16px 8px; }
+.record-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:6px; margin-bottom:8px;
+}
+.record-field {
+  border-bottom:1.5px solid var(--hdr);
+  padding:3px 0;
+  font-size:8.5px; color:var(--text2);
+}
+.record-field span { display:block; font-size:10px; color:var(--text); font-weight:500; min-height:16px; }
+
+.score-boxes {
+  display:grid; grid-template-columns:repeat(5,1fr);
+  gap:6px; margin-top:8px;
+}
+.score-box {
+  border:1.5px solid var(--border); border-radius:6px;
+  padding:7px 6px; text-align:center;
+}
+.score-box-label { font-size:7.5px; color:var(--text2); text-transform:uppercase; letter-spacing:.05em; }
+.score-box-val   { font-size:16px; font-weight:700; color:var(--hdr); min-height:22px; }
+
+.obs-box {
+  border:1px solid var(--border); border-radius:6px;
+  padding:10px 12px; margin-top:8px; min-height:48px;
+  font-size:8px; color:var(--text2);
+}
+.obs-box-label { font-weight:600; font-size:8px; color:var(--hdr); margin-bottom:4px; }
+
+/* ── CAN DO ── */
+.cando-wrap { padding:0 16px 8px; }
+.cando-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.cando-item {
+  display:flex; align-items:flex-start; gap:7px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:7px; padding:8px 10px;
+}
+.cando-check {
+  width:14px; height:14px; flex-shrink:0; margin-top:1px;
+  border:1.5px solid var(--border); border-radius:3px;
+}
+.cando-text { font-size:8.5px; color:var(--text); line-height:1.4; }
+
+/* ── FOOTER ── */
+.ftr {
+  background:var(--hdr); padding:9px 20px;
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:8px;
+}
+.ftr-left  { font-size:8px; color:#7A76B0; }
+.ftr-right { font-size:8px; color:var(--accent); font-weight:500; }
+.udl-note  {
+  background:var(--hdr); padding:3px 20px 5px;
+  font-size:7px; color:#5A5680; text-align:center;
+}
+
+/* ── LEGEND ── */
+.legend {
+  display:flex; gap:8px; flex-wrap:wrap;
+  margin:0 16px 8px;
+}
+.legend-item {
+  display:flex; align-items:center; gap:4px;
+  font-size:8px; color:var(--text2);
+}
+.legend-dot {
+  width:10px; height:10px; border-radius:2px; flex-shrink:0;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-tag">EDAV · Ecosistema Digital de Aprendizaje Virtual · Parcial 3</div>
+  <div class="hdr-title">Rubrica de Evaluacion Formativa — <span>Unit 1: Who Am I?</span></div>
+  <div class="hdr-sub">Actividades gamificadas · CEFR A1 · Secundaria General No. 143 · Coatzacoalcos, Veracruz</div>
+  <div class="hdr-meta">
+    <div class="meta-item">
+      <div class="meta-label">Materia</div>
+      <div class="meta-val">Ingles A1</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Unidad</div>
+      <div class="meta-val">U1 — Identity &amp; Family</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Semestre</div>
+      <div class="meta-val">Enero – Julio 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Sesion de evaluacion</div>
+      <div class="meta-val">Semana 7 (Feb 16–20, 2026)</div>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="sec" style="padding-top:14px">
+  <div class="sec-bar" style="background:var(--accent)"></div>
+  <span class="sec-label" style="color:var(--accent)">Proposito e Instrucciones</span>
+</div>
+<div class="intro">
+  <div class="intro-box">
+    <div class="intro-box-title">Proposito de la rubrica</div>
+    <p>Instrumento de evaluacion <strong>formativa</strong> disenado para valorar el desempeno del alumno en las actividades gamificadas de la Unidad 1 del EDAV. No busca sancionar el error sino identificar el nivel de avance y orientar la retroalimentacion.</p>
+  </div>
+  <div class="intro-box">
+    <div class="intro-box-title">Como aplicar</div>
+    <p>El docente observa al alumno durante la sesion gamificada (OA1 quiz + OA2 pronunciacion) y completa la rubrica al finalizar. La calificacion se calcula sumando los puntos ponderados de cada criterio. Maximo: <strong>20 puntos</strong>. Rango de aprobacion: <strong>12+ puntos</strong>.</p>
+  </div>
+</div>
+
+<!-- LEYENDA -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--c4-bdr)"></div>4 — Excelente (Supera lo esperado)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--c3-bdr)"></div>3 — Satisfactorio (Cumple lo esperado)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--c2-bdr)"></div>2 — En desarrollo (Cumple parcialmente)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--c1-bdr)"></div>1 — Inicial (Requiere apoyo adicional)</div>
+</div>
+
+<!-- RUBRICA PRINCIPAL -->
+<div class="sec">
+  <div class="sec-bar" style="background:var(--hdr)"></div>
+  <span class="sec-label" style="color:var(--hdr)">Criterios de Evaluacion</span>
+  <span class="sec-desc">5 criterios · ponderacion variable · maximo 20 puntos</span>
+</div>
+
+<div class="rubrica-wrap">
+<table>
+  <thead>
+    <tr class="tbl-head">
+      <th class="th-criterio">Criterio</th>
+      <th class="th-peso">Peso</th>
+      <th class="th-4">4 — Excelente</th>
+      <th class="th-3">3 — Satisfactorio</th>
+      <th class="th-2">2 — En desarrollo</th>
+      <th class="th-1">1 — Inicial</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- C1 -->
+    <tr>
+      <td class="td-criterio">
+        Vocabulario A1
+        <small>Reconocimiento y uso de palabras BNC/COCA de identidad y familia</small>
+      </td>
+      <td class="td-peso">5 pts</td>
+      <td class="td-4">Identifica correctamente 90-100% de las palabras en el quiz y el ejercicio de pronunciacion. Usa las palabras en el contexto correcto.</td>
+      <td class="td-3">Identifica correctamente 70-89% de las palabras. Comete errores menores de contexto que no afectan la comunicacion.</td>
+      <td class="td-2">Identifica 50-69% de las palabras. Confunde terminos relacionados (p.ej. sister/cousin, tall/old).</td>
+      <td class="td-1">Identifica menos del 50% de las palabras. Necesita repetir el OA1 y el OA3 (infografia) antes de continuar.</td>
+    </tr>
+
+    <!-- C2 -->
+    <tr>
+      <td class="td-criterio">
+        Gramatica: Verb TO BE
+        <small>Uso correcto de am/is/are en afirmativo, negativo e interrogativo</small>
+      </td>
+      <td class="td-peso">5 pts</td>
+      <td class="td-4">Selecciona consistentemente la forma correcta de TO BE segun el sujeto. Identifica la forma negativa (isn't/aren't) y la interrogativa sin error.</td>
+      <td class="td-3">Usa TO BE correctamente en afirmativo. Comete errores ocasionales en negativo o interrogativo que no impiden la comprension.</td>
+      <td class="td-2">Diferencia I am / She is pero confunde are con is en sujetos plurales o en segunda persona. Necesita refuerzo.</td>
+      <td class="td-1">No distingue am/is/are de forma consistente. Requiere re-ensenanza de la estructura con ejemplos personales.</td>
+    </tr>
+
+    <!-- C3 -->
+    <tr>
+      <td class="td-criterio">
+        Discriminacion Auditiva
+        <small>Identificacion correcta de palabras al escuchar (OA2)</small>
+      </td>
+      <td class="td-peso">4 pts</td>
+      <td class="td-4">Discrimina correctamente 10-12 de los 12 pares de pronunciacion. Distingue pares criticos como he/she, his/her, mother/brother.</td>
+      <td class="td-3">Discrimina correctamente 7-9 de los 12 pares. Los errores se concentran en pares de alta similitud fonetica.</td>
+      <td class="td-2">Discrimina correctamente 4-6 pares. Confunde pares con la misma vocal pero diferente consonante inicial.</td>
+      <td class="td-1">Discrimina correctamente menos de 4 pares. La escucha necesita practica intensiva antes de continuar con U2.</td>
+    </tr>
+
+    <!-- C4 -->
+    <tr>
+      <td class="td-criterio">
+        Comprension Lectora
+        <small>Lectura de oraciones sencillas con vocabulario de la unidad</small>
+      </td>
+      <td class="td-peso">3 pts</td>
+      <td class="td-4">Lee y comprende oraciones completas del tipo "My sister's name is Laura. She is tall and kind." Asocia la oracion con su significado sin apoyo.</td>
+      <td class="td-3">Comprende el significado general de las oraciones. Puede necesitar leer dos veces para entender oraciones con possessive 's.</td>
+      <td class="td-2">Comprende palabras aisladas pero no la oracion completa. Necesita traduccion puntual de conectores basicos.</td>
+      <td class="td-1">No puede leer oraciones completas de forma autonoma. Necesita apoyo visual o traduccion de casi todas las palabras.</td>
+    </tr>
+
+    <!-- C5 -->
+    <tr>
+      <td class="td-criterio">
+        Engagement y Autonomia
+        <small>Participacion activa en las actividades gamificadas sin intervencion docente</small>
+      </td>
+      <td class="td-peso">3 pts</td>
+      <td class="td-4">Completa las 3 rondas del quiz y las 3 pestanas del ejercicio de pronunciacion de forma autonoma. Reinicia voluntariamente para mejorar su puntaje.</td>
+      <td class="td-3">Completa al menos 2 de los 3 recursos (OA1 o OA2) de forma autonoma. Solicita ayuda solo en instrucciones tecnicas.</td>
+      <td class="td-2">Necesita orientacion del docente para navegar las actividades. Completa al menos 1 recurso con apoyo minimo.</td>
+      <td class="td-1">No puede navegar las actividades sin asistencia constante. El tiempo de sesion se invierte mayormente en instrucciones tecnicas.</td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<!-- ESCALA DE CALIFICACION -->
+<div class="sec">
+  <div class="sec-bar" style="background:var(--teal)"></div>
+  <span class="sec-label" style="color:var(--teal)">Escala de Calificacion Global</span>
+</div>
+<div class="score-wrap">
+<table class="score-table">
+  <thead>
+    <tr>
+      <th>Rango de puntos</th>
+      <th>Nivel de desempeno</th>
+      <th>Equivalencia SEP</th>
+      <th>Badge EDAV</th>
+      <th>Accion recomendada</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="range-4">18 – 20 pts</td>
+      <td class="range-4">Excelente</td>
+      <td>9 – 10</td>
+      <td>🥇 Unit 1 Master</td>
+      <td>Avanzar a U2. Actividad de extension opcional.</td>
+    </tr>
+    <tr>
+      <td class="range-3">14 – 17 pts</td>
+      <td class="range-3">Satisfactorio</td>
+      <td>8</td>
+      <td>🥈 Unit 1 Complete</td>
+      <td>Avanzar a U2 con seguimiento en C2 (TO BE).</td>
+    </tr>
+    <tr>
+      <td class="range-2">10 – 13 pts</td>
+      <td class="range-2">En desarrollo</td>
+      <td>6 – 7</td>
+      <td>🌱 Keep Going!</td>
+      <td>Repetir OA1 ronda 1–2 en casa. Refuerzo C1 y C3.</td>
+    </tr>
+    <tr>
+      <td class="range-1">5 – 9 pts</td>
+      <td class="range-1">Inicial</td>
+      <td>5 o menos</td>
+      <td>🔁 Try Again</td>
+      <td>Re-ensenanza de TO BE + infografia U1 antes de U2.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- CAN-DO CHECKLIST -->
+<div class="sec">
+  <div class="sec-bar" style="background:var(--amber)"></div>
+  <span class="sec-label" style="color:var(--amber)">Can-do Checklist — MCER A1</span>
+  <span class="sec-desc">Marcar los que el alumno demuestra al finalizar la unidad</span>
+</div>
+<div class="cando-wrap">
+  <div class="cando-grid">
+    <div class="cando-item">
+      <div class="cando-check"></div>
+      <div class="cando-text">Puede decir su nombre y edad usando Verb TO BE correctamente: "My name is ___ . I am ___ years old."</div>
+    </div>
+    <div class="cando-item">
+      <div class="cando-check"></div>
+      <div class="cando-text">Puede describir a un miembro de su familia con al menos 2 adjetivos: "My mother is tall and kind."</div>
+    </div>
+    <div class="cando-item">
+      <div class="cando-check"></div>
+      <div class="cando-text">Puede distinguir auditivamente entre he/she y his/her en contexto de oraciones simples.</div>
+    </div>
+    <div class="cando-item">
+      <div class="cando-check"></div>
+      <div class="cando-text">Puede leer y comprender una ficha de identificacion sencilla con nombre, edad, pais y descripcion.</div>
+    </div>
+    <div class="cando-item">
+      <div class="cando-check"></div>
+      <div class="cando-text">Reconoce al menos 20 palabras de vocabulario A1 (identidad + familia) de la lista BNC/COCA.</div>
+    </div>
+    <div class="cando-item">
+      <div class="cando-check"></div>
+      <div class="cando-text">Usa possessive 's correctamente en oraciones simples: "My sister's name is ___."</div>
+    </div>
+  </div>
+</div>
+
+<!-- STUDENT RECORD -->
+<div class="sec">
+  <div class="sec-bar" style="background:var(--coral)"></div>
+  <span class="sec-label" style="color:var(--coral)">Registro del Alumno</span>
+</div>
+<div class="record-wrap">
+  <div class="record-grid">
+    <div class="record-field">Nombre del alumno<span></span></div>
+    <div class="record-field">Grupo<span></span></div>
+    <div class="record-field">Fecha<span></span></div>
+  </div>
+
+  <div class="score-boxes">
+    <div class="score-box">
+      <div class="score-box-label">C1 Vocabulario</div>
+      <div class="score-box-val"></div>
+      <div style="font-size:8px;color:#aaa">/ 5 pts</div>
+    </div>
+    <div class="score-box">
+      <div class="score-box-label">C2 TO BE</div>
+      <div class="score-box-val"></div>
+      <div style="font-size:8px;color:#aaa">/ 5 pts</div>
+    </div>
+    <div class="score-box">
+      <div class="score-box-label">C3 Auditiva</div>
+      <div class="score-box-val"></div>
+      <div style="font-size:8px;color:#aaa">/ 4 pts</div>
+    </div>
+    <div class="score-box">
+      <div class="score-box-label">C4 Lectura</div>
+      <div class="score-box-val"></div>
+      <div style="font-size:8px;color:#aaa">/ 3 pts</div>
+    </div>
+    <div class="score-box" style="border-color:var(--accent);background:#EEEDFE">
+      <div class="score-box-label" style="color:var(--accent)">TOTAL</div>
+      <div class="score-box-val" style="color:var(--accent)"></div>
+      <div style="font-size:8px;color:var(--accent)">/20 pts</div>
+    </div>
+  </div>
+
+  <div class="obs-box">
+    <div class="obs-box-label">Observaciones y retroalimentacion personalizada:</div>
+  </div>
+
+  <div style="display:flex;gap:20px;margin-top:12px">
+    <div style="flex:1;border-bottom:1.5px solid var(--hdr);padding:3px 0;font-size:8.5px;color:var(--text2)">
+      Firma del docente<span style="display:block;min-height:20px"></span>
+    </div>
+    <div style="flex:1;border-bottom:1.5px solid var(--hdr);padding:3px 0;font-size:8.5px;color:var(--text2)">
+      Vo. Bo. / Sello<span style="display:block;min-height:20px"></span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="height:8px;background:var(--bg)"></div>
+<div class="ftr">
+  <div class="ftr-left">Innovacion Tecnologica en el Aula · IESAM 2026 · Parcial 3 — Rubrica U1</div>
+  <div class="ftr-right">Jesus Senties Maqueda</div>
+</div>
+<div class="udl-note">
+  DUA: instrumento flexible, formativo y sin exposicion publica del error. Alineado al MCER A1 y Bloom Digital (Churches, 2008). Fuente vocabulario: BNC/COCA Paul Nation.
+</div>
+
+</body>
+</html>

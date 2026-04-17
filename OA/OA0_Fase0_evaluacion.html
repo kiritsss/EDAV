@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Fase 0 — Survival English · Evaluación</title>
+<style>
+  :root {
+    --teal: #0d9488;
+    --teal-light: #ccfbf1;
+    --purple: #7c3aed;
+    --purple-light: #ede9fe;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --correct: #16a34a;
+    --correct-bg: #dcfce7;
+    --wrong: #dc2626;
+    --wrong-bg: #fee2e2;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --radius: 12px;
+  }
+  [data-theme="dark"] {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --teal-light: #134e4a;
+    --purple-light: #2e1065;
+    --amber-light: #451a03;
+    --correct-bg: #14532d;
+    --wrong-bg: #450a0a;
+    --shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--teal);
+    color: white;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .header-left { display: flex; flex-direction: column; gap: 0.2rem; }
+  .header-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+  }
+  .header-title { font-size: 1.2rem; font-weight: 700; }
+  .header-sub { font-size: 0.8rem; opacity: 0.9; }
+  .header-right { display: flex; align-items: center; gap: 0.75rem; }
+
+  /* THEME TOGGLE */
+  .theme-toggle {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 20px;
+    padding: 0.35rem 0.75rem;
+    color: white;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .theme-toggle:hover { background: rgba(255,255,255,0.3); }
+
+  /* SCORE BAR */
+  .score-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    position: sticky; top: 0; z-index: 10;
+    box-shadow: var(--shadow);
+  }
+  .score-label { font-size: 0.85rem; color: var(--text-muted); }
+  .score-value { font-size: 1.1rem; font-weight: 700; color: var(--teal); }
+  .score-progress {
+    flex: 1; min-width: 120px; max-width: 200px;
+    height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;
+  }
+  .score-fill {
+    height: 100%; background: var(--teal); border-radius: 4px;
+    transition: width 0.4s ease; width: 0%;
+  }
+
+  /* MAIN */
+  .main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin: 2rem 0 1rem;
+  }
+  .section-badge {
+    background: var(--teal); color: white;
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 0.3rem 0.7rem; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .section-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s;
+  }
+  .q-card.answered-correct { border-color: var(--correct); }
+  .q-card.answered-wrong { border-color: var(--wrong); }
+
+  .q-num {
+    font-size: 0.72rem; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;
+  }
+  .q-text { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.9rem; line-height: 1.4; }
+
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 0.5rem; }
+  .option-btn {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: var(--text);
+    transition: border-color 0.15s, background 0.15s;
+    display: flex; align-items: flex-start; gap: 0.6rem;
+  }
+  .option-btn:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-light); }
+  .option-btn:disabled { cursor: default; }
+  .option-btn.correct { border-color: var(--correct); background: var(--correct-bg); color: var(--correct); font-weight: 600; }
+  .option-btn.wrong { border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong); }
+  .option-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* FEEDBACK */
+  .feedback {
+    margin-top: 0.75rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: var(--correct-bg); color: var(--correct); border-left: 3px solid var(--correct); }
+  .feedback.wrong { background: var(--wrong-bg); color: var(--wrong); border-left: 3px solid var(--wrong); }
+
+  /* RESULTS */
+  .results-card {
+    background: var(--surface); border: 2px solid var(--teal);
+    border-radius: var(--radius); padding: 2rem; text-align: center;
+    margin-top: 2rem; display: none;
+  }
+  .results-card.show { display: block; }
+  .results-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+  .results-title { font-size: 1.4rem; font-weight: 700; color: var(--teal); margin-bottom: 0.25rem; }
+  .results-score { font-size: 2.2rem; font-weight: 800; color: var(--text); margin: 0.5rem 0; }
+  .results-msg { font-size: 0.9rem; color: var(--text-muted); max-width: 400px; margin: 0 auto 1rem; line-height: 1.5; }
+  .results-badge {
+    display: inline-block; background: var(--amber-light); color: var(--amber);
+    border: 1.5px solid var(--amber); border-radius: 20px;
+    padding: 0.4rem 1rem; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.25rem;
+  }
+
+  /* BUTTONS */
+  .btn-reset {
+    background: var(--teal); color: white; border: none;
+    border-radius: 8px; padding: 0.7rem 1.5rem;
+    font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-reset:hover { opacity: 0.88; }
+
+  /* FOOTER */
+  .footer {
+    background: #1e293b; color: #94a3b8;
+    text-align: center; padding: 1rem;
+    font-size: 0.75rem; margin-top: 3rem;
+  }
+
+  @media (max-width: 500px) {
+    .header-title { font-size: 1rem; }
+    .main { padding: 1rem 0.75rem 2rem; }
+    .q-card { padding: 1rem; }
+    .option-btn { font-size: 0.83rem; padding: 0.6rem 0.85rem; }
+  }
+</style>
+</head>
+<body oncontextmenu="return false" oncopy="return false" onpaste="return false" oncut="return false" data-theme="light">
+
+<header class="header">
+  <div class="header-left">
+    <span class="header-tag">EDAV · Inglés A1 · Secundaria 143</span>
+    <span class="header-title">🟢 Fase 0 — Survival English</span>
+    <span class="header-sub">Evaluación formativa · 15 preguntas</span>
+  </div>
+  <div class="header-right">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Oscuro</button>
+  </div>
+</header>
+
+<div class="score-bar">
+  <span class="score-label">Puntuación</span>
+  <div class="score-progress"><div class="score-fill" id="scoreFill"></div></div>
+  <span class="score-value" id="scoreDisplay">0 / 15</span>
+</div>
+
+<main class="main" id="quizMain">
+
+  <!-- SECCIÓN 1: GREETINGS -->
+  <div class="section-header">
+    <span class="section-badge">Greetings</span>
+    <span class="section-title">Saludos y despedidas</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-card" id="card-0">
+    <div class="q-num">Pregunta 1 de 15</div>
+    <div class="q-text">Your teacher arrives in the morning. What do you say?</div>
+    <div class="options" id="opts-0"></div>
+    <div class="feedback" id="fb-0"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-card" id="card-1">
+    <div class="q-num">Pregunta 2 de 15</div>
+    <div class="q-text">Class is over. How do you say goodbye to a friend?</div>
+    <div class="options" id="opts-1"></div>
+    <div class="feedback" id="fb-1"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-card" id="card-2">
+    <div class="q-num">Pregunta 3 de 15</div>
+    <div class="q-text">It is 3:00 pm. Which greeting is correct?</div>
+    <div class="options" id="opts-2"></div>
+    <div class="feedback" id="fb-2"></div>
+  </div>
+
+  <!-- SECCIÓN 2: ALPHABET & SPELLING -->
+  <div class="section-header">
+    <span class="section-badge">Alphabet</span>
+    <span class="section-title">Abecedario y deletreo</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-card" id="card-3">
+    <div class="q-num">Pregunta 4 de 15</div>
+    <div class="q-text">Which letter comes after <strong>M</strong> in the alphabet?</div>
+    <div class="options" id="opts-3"></div>
+    <div class="feedback" id="fb-3"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-card" id="card-4">
+    <div class="q-num">Pregunta 5 de 15</div>
+    <div class="q-text">How do you spell the name <strong>ROSA</strong>?</div>
+    <div class="options" id="opts-4"></div>
+    <div class="feedback" id="fb-4"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-card" id="card-5">
+    <div class="q-num">Pregunta 6 de 15</div>
+    <div class="q-text">The teacher says: <em>"Open your notebook and write your name."</em><br>Which letter is NOT in the word <strong>BOOK</strong>?</div>
+    <div class="options" id="opts-5"></div>
+    <div class="feedback" id="fb-5"></div>
+  </div>
+
+  <!-- SECCIÓN 3: CLASSROOM COMMANDS -->
+  <div class="section-header">
+    <span class="section-badge">Commands</span>
+    <span class="section-title">Instrucciones del salón</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-card" id="card-6">
+    <div class="q-num">Pregunta 7 de 15</div>
+    <div class="q-text">The teacher says: <em>"Sit down, please."</em> What should you do?</div>
+    <div class="options" id="opts-6"></div>
+    <div class="feedback" id="fb-6"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-card" id="card-7">
+    <div class="q-num">Pregunta 8 de 15</div>
+    <div class="q-text">The teacher says: <em>"Open your book."</em> What do you open?</div>
+    <div class="options" id="opts-7"></div>
+    <div class="feedback" id="fb-7"></div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-card" id="card-8">
+    <div class="q-num">Pregunta 9 de 15</div>
+    <div class="q-text">Which command means <em>"escucha"</em> in English?</div>
+    <div class="options" id="opts-8"></div>
+    <div class="feedback" id="fb-8"></div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-card" id="card-9">
+    <div class="q-num">Pregunta 10 de 15</div>
+    <div class="q-text">The teacher says: <em>"Repeat after me."</em> What do you do?</div>
+    <div class="options" id="opts-9"></div>
+    <div class="feedback" id="fb-9"></div>
+  </div>
+
+  <!-- SECCIÓN 4: NÚMEROS, COLORES Y DÍAS -->
+  <div class="section-header">
+    <span class="section-badge">Numbers · Colors · Days</span>
+    <span class="section-title">Números, colores y días</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="q-card" id="card-10">
+    <div class="q-num">Pregunta 11 de 15</div>
+    <div class="q-text">How do you say <strong>15</strong> in English?</div>
+    <div class="options" id="opts-10"></div>
+    <div class="feedback" id="fb-10"></div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="q-card" id="card-11">
+    <div class="q-num">Pregunta 12 de 15</div>
+    <div class="q-text">Which color is the sky on a clear day?</div>
+    <div class="options" id="opts-11"></div>
+    <div class="feedback" id="fb-11"></div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="q-card" id="card-12">
+    <div class="q-num">Pregunta 13 de 15</div>
+    <div class="q-text">What day comes after <strong>Monday</strong>?</div>
+    <div class="options" id="opts-12"></div>
+    <div class="feedback" id="fb-12"></div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="q-card" id="card-13">
+    <div class="q-num">Pregunta 14 de 15</div>
+    <div class="q-text">How do you say <strong>verde</strong> in English?</div>
+    <div class="options" id="opts-13"></div>
+    <div class="feedback" id="fb-13"></div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="q-card" id="card-14">
+    <div class="q-num">Pregunta 15 de 15</div>
+    <div class="q-text">What number comes before <strong>twenty</strong>?</div>
+    <div class="options" id="opts-14"></div>
+    <div class="feedback" id="fb-14"></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-card" id="resultsCard">
+    <div class="results-emoji" id="resEmoji">🎉</div>
+    <div class="results-title" id="resTitle">¡Bien hecho!</div>
+    <div class="results-score" id="resScore">0 / 15</div>
+    <div class="results-badge" id="resBadge">🌟 Survival Pro</div>
+    <div class="results-msg" id="resMsg">Mensaje de resultado aquí.</div>
+    <button class="btn-reset" onclick="resetQuiz()">🔄 Intentar de nuevo</button>
+  </div>
+
+</main>
+
+<footer class="footer">
+  EDAV · Ecosistema Digital de Aprendizaje Virtual · Inglés A1 · Secundaria General No. 143 · Coatzacoalcos, Veracruz
+</footer>
+
+<script>
+// ─── DATOS DE PREGUNTAS ───────────────────────────────────────────────────────
+const QUESTIONS = [
+  // 0 — Greetings
+  {
+    correct: 0,
+    options: [
+      { text: "Good morning!", feedback: "✅ ¡Correcto! 'Good morning' se usa en la mañana. Es el saludo formal apropiado cuando ves a tu maestro al llegar." },
+      { text: "Good night!", feedback: "❌ 'Good night' es una despedida que se usa al final del día, antes de dormir. No es un saludo de llegada." },
+      { text: "Goodbye!", feedback: "❌ 'Goodbye' es una despedida, no un saludo. Se usa cuando te vas, no cuando llegas." },
+      { text: "See you!", feedback: "❌ 'See you' también es una despedida informal. Se usa al final de la clase, no al llegar." }
+    ]
+  },
+  // 1 — Greetings
+  {
+    correct: 2,
+    options: [
+      { text: "Good morning!", feedback: "❌ 'Good morning' es un saludo de llegada para la mañana. Aquí la clase ya terminó y te despides." },
+      { text: "Hello!", feedback: "❌ 'Hello' es un saludo de llegada. Para despedirte de un amigo se usan expresiones distintas." },
+      { text: "See you later!", feedback: "✅ ¡Correcto! 'See you later' es la despedida informal perfecta entre amigos. Significa 'hasta luego'." },
+      { text: "Good afternoon!", feedback: "❌ 'Good afternoon' es un saludo de llegada para la tarde. No es una despedida." }
+    ]
+  },
+  // 2 — Greetings
+  {
+    correct: 1,
+    options: [
+      { text: "Good morning!", feedback: "❌ 'Good morning' se usa en la mañana (de 12:00 am a 12:00 pm). A las 3:00 pm ya es tarde." },
+      { text: "Good afternoon!", feedback: "✅ ¡Correcto! 'Good afternoon' se usa de 12:00 pm a 6:00 pm. Las 3:00 pm es tarde, así que es la opción correcta." },
+      { text: "Good night!", feedback: "❌ 'Good night' es una despedida nocturna o para ir a dormir. Las 3:00 pm no es de noche." },
+      { text: "Hi there!", feedback: "❌ 'Hi there' es un saludo muy informal y no indica la hora del día. No es la respuesta más precisa." }
+    ]
+  },
+  // 3 — Alphabet
+  {
+    correct: 2,
+    options: [
+      { text: "L", feedback: "❌ 'L' viene ANTES de 'M' en el abecedario: ...K, L, M, N... Necesitas la letra que viene DESPUÉS." },
+      { text: "O", feedback: "❌ 'O' viene dos letras después de 'M'. El orden es M → N → O. Solo necesitas la siguiente." },
+      { text: "N", feedback: "✅ ¡Correcto! El orden del abecedario es: ...L, M, N, O... La letra que viene inmediatamente después de 'M' es 'N'." },
+      { text: "P", feedback: "❌ 'P' está tres letras después de 'M'. El orden es M → N → O → P." }
+    ]
+  },
+  // 4 — Spelling
+  {
+    correct: 0,
+    options: [
+      { text: "R - O - S - A", feedback: "✅ ¡Correcto! Para deletrear ROSA en inglés dices cada letra: R (ar), O (ou), S (es), A (ei)." },
+      { text: "R - O - Z - A", feedback: "❌ La letra 'Z' no está en ROSA. El nombre solo tiene: R, O, S, A." },
+      { text: "R - U - S - A", feedback: "❌ La segunda letra de ROSA es 'O', no 'U'. Revisa: R-O-S-A." },
+      { text: "L - O - S - A", feedback: "❌ La primera letra de ROSA es 'R', no 'L'. Revisa: R-O-S-A." }
+    ]
+  },
+  // 5 — Alphabet
+  {
+    correct: 3,
+    options: [
+      { text: "B", feedback: "❌ 'B' SÍ está en BOOK. La palabra se escribe B-O-O-K, y comienza con 'B'." },
+      { text: "O", feedback: "❌ 'O' SÍ está en BOOK, ¡y aparece dos veces! B-O-O-K." },
+      { text: "K", feedback: "❌ 'K' SÍ está en BOOK. La palabra termina en 'K': B-O-O-K." },
+      { text: "A", feedback: "✅ ¡Correcto! La letra 'A' NO está en BOOK. La palabra se escribe B-O-O-K y solo contiene esas 4 letras." }
+    ]
+  },
+  // 6 — Commands
+  {
+    correct: 1,
+    options: [
+      { text: "Stand up and walk to the door", feedback: "❌ Eso sería para 'Stand up' o 'Go to the door'. 'Sit down' significa sentarse, no levantarse." },
+      { text: "Take your seat and sit", feedback: "✅ ¡Correcto! 'Sit down' significa sentarse. Cuando el maestro lo dice, debes tomar tu asiento y sentarte." },
+      { text: "Open your notebook", feedback: "❌ Eso correspondería al comando 'Open your notebook'. 'Sit down' es específicamente para sentarse." },
+      { text: "Raise your hand", feedback: "❌ 'Raise your hand' es otro comando que significa levantar la mano. No tiene relación con sentarse." }
+    ]
+  },
+  // 7 — Commands
+  {
+    correct: 2,
+    options: [
+      { text: "Your pencil case", feedback: "❌ 'Open your book' significa abrir el libro. 'Pencil case' es el estuche de lápices." },
+      { text: "Your notebook", feedback: "❌ 'Open your notebook' sería para el cuaderno. 'Book' en inglés es libro, no cuaderno." },
+      { text: "Your book / textbook", feedback: "✅ ¡Correcto! 'Open your book' significa abrir tu libro o libro de texto. 'Book' = libro." },
+      { text: "Your backpack", feedback: "❌ 'Backpack' es mochila. El maestro dijo 'book', que es el libro, no la mochila." }
+    ]
+  },
+  // 8 — Commands
+  {
+    correct: 0,
+    options: [
+      { text: "Listen!", feedback: "✅ ¡Correcto! 'Listen' significa escuchar o prestar atención. Es uno de los comandos más usados en clase de inglés." },
+      { text: "Look!", feedback: "❌ 'Look' significa mirar o ver, no escuchar. Viene del verbo to look (mirar)." },
+      { text: "Read!", feedback: "❌ 'Read' significa leer. Viene del verbo to read. No tiene relación con escuchar." },
+      { text: "Write!", feedback: "❌ 'Write' significa escribir. Viene del verbo to write. No significa escuchar." }
+    ]
+  },
+  // 9 — Commands
+  {
+    correct: 3,
+    options: [
+      { text: "Stand up and go to the board", feedback: "❌ Eso sería para 'Go to the board' o 'Come here'. 'Repeat' tiene un significado diferente." },
+      { text: "Write the word in your notebook", feedback: "❌ Escribir sería la respuesta a 'Write it down'. 'Repeat' se refiere a decir en voz alta, no escribir." },
+      { text: "Open your book to page one", feedback: "❌ Eso sería para 'Open your book'. 'Repeat after me' significa otra cosa." },
+      { text: "Say the same words the teacher said", feedback: "✅ ¡Correcto! 'Repeat after me' significa repetir lo que dice el maestro. Dices las mismas palabras en voz alta." }
+    ]
+  },
+  // 10 — Numbers
+  {
+    correct: 1,
+    options: [
+      { text: "Fifty", feedback: "❌ 'Fifty' es 50, no 15. Cuidado con la pronunciación: fifteen (15) y fifty (50) suenan parecido pero son diferentes." },
+      { text: "Fifteen", feedback: "✅ ¡Correcto! 15 en inglés es 'fifteen'. Recuerda: los números del 13 al 19 terminan en '-teen'." },
+      { text: "Five", feedback: "❌ 'Five' es el número 5. Para el 15 necesitas 'fifteen', que combina 'five' + 'teen'." },
+      { text: "Forty", feedback: "❌ 'Forty' es 40. Para el 15 es 'fifteen'." }
+    ]
+  },
+  // 11 — Colors
+  {
+    correct: 2,
+    options: [
+      { text: "Green", feedback: "❌ 'Green' es verde. El cielo despejado no es verde, es de otro color." },
+      { text: "Red", feedback: "❌ 'Red' es rojo. El cielo en un día despejado no es rojo (a menos que sea al atardecer)." },
+      { text: "Blue", feedback: "✅ ¡Correcto! El cielo en un día despejado es azul. 'Blue' = azul." },
+      { text: "Yellow", feedback: "❌ 'Yellow' es amarillo. El sol es amarillo, pero el cielo despejado es azul (blue)." }
+    ]
+  },
+  // 12 — Days
+  {
+    correct: 0,
+    options: [
+      { text: "Tuesday", feedback: "✅ ¡Correcto! El orden de los días es: Monday → Tuesday → Wednesday → Thursday → Friday → Saturday → Sunday. Después del lunes viene el martes (Tuesday)." },
+      { text: "Wednesday", feedback: "❌ 'Wednesday' es miércoles. Viene después del martes, no del lunes. El orden es Monday → Tuesday → Wednesday." },
+      { text: "Sunday", feedback: "❌ 'Sunday' es domingo, el último día de la semana. No viene después del lunes." },
+      { text: "Thursday", feedback: "❌ 'Thursday' es jueves. Está cuatro días después del lunes, no el siguiente." }
+    ]
+  },
+  // 13 — Colors
+  {
+    correct: 3,
+    options: [
+      { text: "Blue", feedback: "❌ 'Blue' es azul, no verde. En español: azul = blue, verde = green." },
+      { text: "Yellow", feedback: "❌ 'Yellow' es amarillo. En español: amarillo = yellow, verde = green." },
+      { text: "Red", feedback: "❌ 'Red' es rojo. En español: rojo = red, verde = green." },
+      { text: "Green", feedback: "✅ ¡Correcto! 'Verde' en inglés es 'green'. Es uno de los colores más importantes del vocabulario básico." }
+    ]
+  },
+  // 14 — Numbers
+  {
+    correct: 1,
+    options: [
+      { text: "Eighteen", feedback: "❌ 'Eighteen' es 18. El número que viene antes de 20 es el 19." },
+      { text: "Nineteen", feedback: "✅ ¡Correcto! El número que viene antes de 'twenty' (20) es 'nineteen' (19). Recuerda: los números del 13 al 19 terminan en '-teen'." },
+      { text: "Twenty-one", feedback: "❌ 'Twenty-one' es 21, que viene DESPUÉS de twenty, no antes." },
+      { text: "Seventeen", feedback: "❌ 'Seventeen' es 17. Está dos números antes de 20, no inmediatamente antes." }
+    ]
+  }
+];
+
+// ─── ESTADO ──────────────────────────────────────────────────────────────────
+const state = {
+  score: 0,
+  answered: new Array(QUESTIONS.length).fill(false),
+  shuffled: []
+};
+
+// ─── INICIALIZACIÓN ───────────────────────────────────────────────────────────
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQuestions() {
+  state.shuffled = QUESTIONS.map(q => {
+    const indices = shuffle([0, 1, 2, 3]);
+    return { correctIndex: indices.indexOf(q.correct), shuffledOptions: indices.map(i => q.options[i]) };
+  });
+
+  QUESTIONS.forEach((_, qi) => {
+    const optsEl = document.getElementById('opts-' + qi);
+    optsEl.innerHTML = '';
+    const { shuffledOptions, correctIndex } = state.shuffled[qi];
+    shuffledOptions.forEach((opt, oi) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = '<span class="option-icon">○</span><span>' + opt.text + '</span>';
+      btn.addEventListener('click', () => selectAnswer(qi, oi, correctIndex, shuffledOptions[oi].feedback, shuffledOptions[correctIndex].feedback));
+      optsEl.appendChild(btn);
+    });
+  });
+}
+
+function selectAnswer(qi, selected, correct, feedbackSelected, feedbackCorrect) {
+  if (state.answered[qi]) return;
+  state.answered[qi] = true;
+
+  const card = document.getElementById('card-' + qi);
+  const optsEl = document.getElementById('opts-' + qi);
+  const fbEl = document.getElementById('fb-' + qi);
+  const btns = optsEl.querySelectorAll('.option-btn');
+
+  btns.forEach(b => b.disabled = true);
+
+  const isCorrect = selected === correct;
+
+  // Mark selected button
+  btns[selected].classList.add(isCorrect ? 'correct' : 'wrong');
+  btns[selected].querySelector('.option-icon').textContent = isCorrect ? '✅' : '❌';
+
+  // If wrong, also highlight correct
+  if (!isCorrect) {
+    btns[correct].classList.add('correct');
+    btns[correct].querySelector('.option-icon').textContent = '✅';
+  }
+
+  // Show feedback
+  fbEl.textContent = isCorrect ? feedbackSelected : feedbackSelected + ' ' + feedbackCorrect;
+  fbEl.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+
+  // Card border
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+
+  // Score
+  if (isCorrect) state.score++;
+  updateScore();
+
+  // Check if all answered
+  if (state.answered.every(Boolean)) {
+    setTimeout(showResults, 600);
+  }
+}
+
+function updateScore() {
+  const total = QUESTIONS.length;
+  const sd = document.getElementById('scoreDisplay');
+  const sf = document.getElementById('scoreFill');
+  if (sd) sd.textContent = state.score + ' / ' + total;
+  if (sf) sf.style.width = (state.score / total * 100) + '%';
+}
+
+function showResults() {
+  const total = QUESTIONS.length;
+  const pct = state.score / total;
+  const card = document.getElementById('resultsCard');
+  card.classList.add('show');
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  let emoji, title, badge, msg;
+  if (pct >= 0.9) {
+    emoji = '🏆'; title = '¡Excelente!'; badge = '🥇 Survival Master';
+    msg = 'Dominas perfectamente el vocabulario de supervivencia en inglés. ¡Estás listo para la Unidad 1!';
+  } else if (pct >= 0.7) {
+    emoji = '🎉'; title = '¡Muy bien!'; badge = '🥈 Survival Pro';
+    msg = 'Conoces bien los saludos, comandos y vocabulario básico. Repasa las preguntas donde te equivocaste y estarás perfecto.';
+  } else if (pct >= 0.5) {
+    emoji = '📚'; title = '¡Sigue adelante!'; badge = '🌱 Keep Going!';
+    msg = 'Vas por buen camino. Practica un poco más el abecedario y los números antes de continuar a la Unidad 1.';
+  } else {
+    emoji = '💪'; title = '¡Tú puedes!'; badge = '🔁 Try Again';
+    msg = 'Necesitas repasar el vocabulario de Fase 0. Revisa los saludos, comandos del salón y los números del 1 al 20.';
+  }
+
+  const resScore = document.getElementById('resScore');
+  const resEmoji = document.getElementById('resEmoji');
+  const resTitle = document.getElementById('resTitle');
+  const resBadge = document.getElementById('resBadge');
+  const resMsg   = document.getElementById('resMsg');
+  if (resScore) resScore.textContent = state.score + ' / ' + total;
+  if (resEmoji) resEmoji.textContent = emoji;
+  if (resTitle) resTitle.textContent = title;
+  if (resBadge) resBadge.textContent = badge;
+  if (resMsg)   resMsg.textContent   = msg;
+}
+
+function resetQuiz() {
+  state.score = 0;
+  state.answered.fill(false);
+
+  document.getElementById('resultsCard')?.classList.remove('show');
+  document.querySelectorAll('.q-card').forEach(c => {
+    c.classList.remove('answered-correct', 'answered-wrong');
+  });
+  document.querySelectorAll('.feedback').forEach(f => {
+    f.className = 'feedback';
+    f.textContent = '';
+  });
+
+  updateScore();
+  buildQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleTheme() {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  const _tb = document.getElementById('themeBtn'); if(_tb) _tb.textContent = isDark ? '🌙 Oscuro' : '☀️ Claro';
+  try { localStorage.setItem('edav-theme', isDark ? 'light' : 'dark'); } catch(e) {}
+}
+
+// ─── ARRANQUE ─────────────────────────────────────────────────────────────────
+(function init() {
+  try {
+    const saved = localStorage.getItem('edav-theme');
+    if (saved) {
+      document.body.setAttribute('data-theme', saved);
+      const _tb = document.getElementById('themeBtn'); if(_tb) _tb.textContent = saved === 'dark' ? '☀️ Claro' : '🌙 Oscuro';
+    }
+  } catch(e) {}
+  buildQuestions();
+})();
+</script>
+</body>
+</html>
